@@ -18,6 +18,8 @@ import java.nio.ByteBuffer;
 
 import org.joml.Vector3f;
 
+import engine.Vector2D;
+
 import engine.PNGDecoder.Format;
 
 /*import com.iit.uni.engine.graph.Mesh;
@@ -166,6 +168,14 @@ public class Texture2D {
 	}
 
 	public void render() {
+		mesh.render();
+	}
+	
+	public void Draw(float x, float y) {
+		mesh.render();
+	}
+
+	public void Draw(Vector2D vec) {
 		mesh.render();
 	}
 
