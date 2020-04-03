@@ -6,10 +6,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 
 import common.Golem;
+import common.Map;
 //import engine.CSprite;
 import engine.IGameLogic;
 import engine.Renderer;
 import engine.Texture2D;
+import engine.MapHandler;
 //import engine.Vector2D;
 import engine.Window;
 
@@ -21,6 +23,8 @@ public class DummyGame implements IGameLogic {
 	//private CSprite sprite;
 	private Golem gameItems[] = new Golem[1];
 	private Golem golem;
+	private Texture2D[][] mapTextures = new Texture2D[3][3];
+	private Map map;
 
 	public DummyGame() {
 		renderer = new Renderer();
@@ -29,9 +33,10 @@ public class DummyGame implements IGameLogic {
 	@Override
 	public void init(Window window) throws Exception {
 		renderer.init(window);
+		mapTextures = map.drawMap();
 
 		//sprite = new CSprite("textures/bird", 4, 0, 0);
-		golem = new Golem("textures/Golems/PNG/Golem_01/PNG Sequences/Idle/Golem_01_Idle_0", 11,0,0);
+		golem = new Golem("textures/Golems/PNG/Golem_01/PNG Sequences/Idle/Golem_01_Idle_0", 11,0,1);
 		gameItems[0] = golem;
 	}
 
@@ -66,7 +71,7 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void render(Window window) {
-		renderer.render(window, golem);
+		renderer.render(window, golem, mapTextures);
 	}
 
 	@Override
@@ -74,4 +79,6 @@ public class DummyGame implements IGameLogic {
 		renderer.cleanup();
 		//gameItems.cleanUp();
 	}
+	
+	
 }

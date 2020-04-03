@@ -114,6 +114,54 @@ public class Renderer {
 	
 		shaderProgram.unbind();
 	}
+	
+	public void render(Window window, Golem golem, Texture2D[][] map) {
+		clear();
+
+		if (window.isResized()) {
+			glViewport(0, 0, window.getWidth(), window.getHeight());
+			window.setResized(false);
+		}
+
+		shaderProgram.bind();
+
+		// Update orthogonal projection Matrix
+		Matrix4f projectionMatrix = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(),
+				0);
+
+		shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+
+		shaderProgram.setUniform("texture_sampler", 0);
+
+		// Render each gameItem
+	
+
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(golem.GetPosition().x,golem.GetPosition().y,0), golem.GetCurrentFrameTexture().getRotation(),
+					golem.GetCurrentFrameTexture().getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			golem.Draw();
+			
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					// Set world matrix for this item
+					Matrix4f worldMatrix2 = transformation.getWorldMatrix(map[i][j].getPosition(), map[i][j].getRotation(),
+							map[i][j].getScale());
+
+					shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+					// Render the sprite
+					map[i][j].render();
+				}
+			}
+				
+				
+	
+		shaderProgram.unbind();
+	}
 
 	public void cleanup() {
 		if (shaderProgram != null) {
