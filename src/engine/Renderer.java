@@ -12,6 +12,7 @@ import org.joml.Vector3f;
 import engine.Window;
 
 import common.Golem;
+import common.Map;
 
 
 /**
@@ -115,7 +116,7 @@ public class Renderer {
 		shaderProgram.unbind();
 	}
 	
-	public void render(Window window, Golem golem, Texture2D[][] map) {
+	public void render(Window window, Golem golem, Map map) {
 		clear();
 
 		if (window.isResized()) {
@@ -143,18 +144,18 @@ public class Renderer {
 			shaderProgram.setUniform("worldMatrix", worldMatrix);
 
 			// Render the sprite
-			golem.Draw();
-			
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
+			//golem.Draw();
+			Texture2D[][] maptexture = map.drawMap();
+			for (int i = 0; i < map.getNumberofRows(); i++) {
+				for (int j = 0; j < map.getNumberofColumns(); j++) {
 					// Set world matrix for this item
-					Matrix4f worldMatrix2 = transformation.getWorldMatrix(map[i][j].getPosition(), map[i][j].getRotation(),
-							map[i][j].getScale());
+					Matrix4f worldMatrix2 = transformation.getWorldMatrix(maptexture[j][i].getPosition(), maptexture[i][j].getRotation(),
+							maptexture[i][j].getScale());
 
 					shaderProgram.setUniform("worldMatrix", worldMatrix2);
 
 					// Render the sprite
-					map[i][j].render();
+					maptexture[i][j].render();
 				}
 			}
 				

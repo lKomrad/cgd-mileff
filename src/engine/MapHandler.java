@@ -1,8 +1,10 @@
 package engine;
 
 import java.io.File;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class MapHandler {
 
@@ -23,6 +25,9 @@ public class MapHandler {
 		this.rows = rows;
 		this.columns = columns;
 		map = readMapFile(filename);
+	}
+	
+	public MapHandler() {
 	}
 
 	public static int getRows() {
@@ -50,6 +55,9 @@ public class MapHandler {
 			return null;
 		}
 	}
+	
+	
+	
 
 	
 
