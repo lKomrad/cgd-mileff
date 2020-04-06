@@ -23,8 +23,8 @@ public class DummyGame implements IGameLogic {
 	//private CSprite sprite;
 	private Golem gameItems[] = new Golem[1];
 	private Golem golem;
-	private Texture2D[][] mapTextures = new Texture2D[3][3];
 	private Map map;
+	private Texture2D[][] mapTextures = new Texture2D[map.getNumberofRows()][map.getNumberofColumns()];
 
 	public DummyGame() {
 		renderer = new Renderer();
@@ -71,7 +71,7 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void render(Window window) {
-		renderer.render(window, golem, mapTextures);
+		renderer.render(window, golem, map);
 	}
 
 	@Override
