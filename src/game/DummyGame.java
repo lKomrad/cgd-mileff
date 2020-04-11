@@ -6,6 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 
 import common.Golem;
+import common.Golem.Animation;
 import common.Map;
 //import engine.CSprite;
 import engine.IGameLogic;
@@ -25,6 +26,8 @@ public class DummyGame implements IGameLogic {
 	private Golem golem;
 	private Map map;
 	private Texture2D[][] mapTextures = new Texture2D[map.getNumberofRows()][map.getNumberofColumns()];
+	boolean walking;
+	boolean stopped;
 
 	public DummyGame() {
 		renderer = new Renderer();
@@ -36,8 +39,13 @@ public class DummyGame implements IGameLogic {
 		mapTextures = map.drawMap();
 
 		//sprite = new CSprite("textures/bird", 4, 0, 0);
-		golem = new Golem("textures/Golems/PNG/Golem_01/PNG Sequences/Idle/Golem_01_Idle_0", 11,0,1);
+		//golem = new Golem("textures/Golems/PNG/Golem_01/PNG Sequences/Idle/Golem_01_Idle_0", 11,0,1);
+		golem = new Golem(0,100);
+		golem.setScale(0.33f);
+		
 		gameItems[0] = golem;
+		walking = false;
+		stopped = false;
 	}
 
 	@Override
@@ -66,7 +74,21 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void update(float interval) {
-
+		float x = golem.GetSpritePosX();
+		
+		if (x < 200) {
+			if(!walking) {
+				walking = true;
+				golem.setAnimation(Animation.Walk);
+			}
+			golem.SetPosition(x+1, 100);
+		} else {
+			if(!stopped) {
+				stopped = true;
+				golem.setAnimation(Animation.Idle);
+			}
+		}
+		
 	}
 
 	@Override

@@ -139,12 +139,12 @@ public class Renderer {
 
 			// Set world matrix for this item
 			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(golem.GetPosition().x,golem.GetPosition().y,0), golem.GetCurrentFrameTexture().getRotation(),
-					golem.GetCurrentFrameTexture().getScale());
+					golem.getScale());
 
 			shaderProgram.setUniform("worldMatrix", worldMatrix);
 
 			// Render the sprite
-			//golem.Draw();
+			golem.Draw();
 			Texture2D[][] maptexture = map.drawMap();
 			for (int i = 0; i < map.getNumberofRows(); i++) {
 				for (int j = 0; j < map.getNumberofColumns(); j++) {
