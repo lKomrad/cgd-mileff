@@ -14,6 +14,7 @@ public class Golem {
 	// Frames vector
 		private ArrayList<Texture2D> idle_vFrames;
 		private ArrayList<Texture2D> walk_vFrames;
+		private ArrayList<Texture2D> attack_vFrames;
 		
 
 		// Actual frame
@@ -32,7 +33,8 @@ public class Golem {
 
 		public enum Animation {
 			Idle,
-			Walk
+			Walk,
+			Attack
 		}
 		private Animation animation;
 		
@@ -44,6 +46,7 @@ public class Golem {
 			m_iFps = 15; // default FPS animation rate
 			idle_vFrames = new ArrayList<Texture2D>();
 			walk_vFrames = new ArrayList<Texture2D>();
+			attack_vFrames = new ArrayList<Texture2D>();
 			scale = 1;
 		}
 		
@@ -53,6 +56,7 @@ public class Golem {
 			m_iFps = 15; // default FPS animation rate
 			idle_vFrames = new ArrayList<Texture2D>();
 			walk_vFrames = new ArrayList<Texture2D>();
+			attack_vFrames = new ArrayList<Texture2D>();
 			animation = Animation.Idle;
 			scale = 1;
 			
@@ -68,6 +72,7 @@ public class Golem {
 			m_iFps = 15; // default FPS animation rate
 			idle_vFrames = new ArrayList<Texture2D>();
 			walk_vFrames = new ArrayList<Texture2D>();
+			attack_vFrames = new ArrayList<Texture2D>();
 			scale = 1;
 
 			/** Loading textures */
@@ -84,6 +89,9 @@ public class Golem {
 			filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Walking/Golem_01_Walking_0";
 			numOfFrames = 18;
 			LoadTextureGroup(filenames, numOfFrames, walk_vFrames);
+			filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Attacking/Golem_01_Attacking_0";
+			numOfFrames = 12;
+			LoadTextureGroup(filenames, numOfFrames, attack_vFrames);
 		}
 
 		/** Loads sprite textures */
@@ -191,6 +199,10 @@ public class Golem {
 				tex = walk_vFrames.get(m_iActualFrame - 1);
 				System.out.println("Actual frame: " +m_iActualFrame);
 				break;
+			case Attack:
+				tex = attack_vFrames.get(m_iActualFrame - 1);
+				System.out.println("Actual frame: " +m_iActualFrame);
+				break;
 			default:
 				tex = idle_vFrames.get(m_iActualFrame - 1);
 				System.out.println("Actual frame: " +m_iActualFrame);
@@ -221,6 +233,12 @@ public class Golem {
 				case Walk:
 					if (++m_iActualFrame > walk_vFrames.size()) {
 						m_iActualFrame = 1;
+					}
+					break;
+				case Attack:
+					if (++m_iActualFrame > attack_vFrames.size()) {
+						m_iActualFrame = 1;
+						this.animation = Animation.Idle;
 					}
 					break;
 				default:
@@ -363,6 +381,10 @@ public class Golem {
 		/** Returns the fps of the animation */
 		public int GetAnimationSpeed() {
 			return m_iFps;
+		}
+		
+		public void Attack() {
+			this.animation = Animation.Attack;
 		}
 
 		public void cleanUp() {

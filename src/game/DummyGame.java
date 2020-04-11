@@ -50,12 +50,10 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void input(Window window) {
-		/*if (window.isKeyPressed(GLFW_KEY_UP)) {
-			Vector2D pos = sprite.GetPosition();
-			pos.y -= 10;
-			sprite.SetPosition(pos);
+		if (window.isKeyPressed('A')) {
+			golem.Attack();
 
-		} else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
+		}/* else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
 			Vector2D pos = sprite.GetPosition();
 			pos.y += 10;
 			sprite.SetPosition(pos);
