@@ -49,7 +49,7 @@ public class Map {
 	}
 
 	
-	public static Texture2D[][] drawMap() {
+	public static void loadMap() {
 		for (int i = 0; i < numberofRows; i++) {
 				for (int j = 0; j < numberofColumns; j++) {
 					
@@ -59,7 +59,13 @@ public class Map {
 					mapTexture[i][j] = mapComp;
 				}
 			}
-		return mapTexture;
+		Map.setMapTexture(mapTexture);
+	}
+
+
+
+	public static void setMapTexture(Texture2D[][] mapTexture) {
+		Map.mapTexture = mapTexture;
 	}
 	
 	
