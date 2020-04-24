@@ -36,7 +36,7 @@ public class DummyGame implements IGameLogic {
 	@Override
 	public void init(Window window) throws Exception {
 		renderer.init(window);
-		mapTextures = map.drawMap();
+		map.loadMap();
 
 		//sprite = new CSprite("textures/bird", 4, 0, 0);
 		//golem = new Golem("textures/Golems/PNG/Golem_01/PNG Sequences/Idle/Golem_01_Idle_0", 11,0,1);
