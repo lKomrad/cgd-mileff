@@ -51,6 +51,7 @@ public class DummyGame implements IGameLogic {
 	@Override
 	public void input(Window window) {
 		if (window.isKeyPressed('A')) {
+			golem.Reset();
 			golem.Attack();
 
 		}/* else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
@@ -78,12 +79,14 @@ public class DummyGame implements IGameLogic {
 			if(!walking) {
 				walking = true;
 				golem.setAnimation(Animation.Walk);
+				golem.Reset();
 			}
 			golem.SetPosition(x+1, 100);
 		} else {
 			if(!stopped) {
 				stopped = true;
 				golem.setAnimation(Animation.Idle);
+				golem.Reset();
 			}
 		}
 		

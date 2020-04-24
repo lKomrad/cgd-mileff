@@ -145,6 +145,7 @@ public class Renderer {
 
 			// Render the sprite
 			golem.Draw();
+			
 			Texture2D[][] maptexture = map.drawMap();
 			for (int i = 0; i < map.getNumberofRows(); i++) {
 				for (int j = 0; j < map.getNumberofColumns(); j++) {
