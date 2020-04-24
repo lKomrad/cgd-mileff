@@ -162,7 +162,10 @@ public class Unit {
 		}
 
 		public void setAnimation(Animation animation) {
-			this.animation = animation;
+			if(!this.animation.equals(animation)) {
+				this.animation = animation;	
+				Reset();
+			}
 		}
 		
 		/** Draw Animated Sprite */

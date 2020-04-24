@@ -97,10 +97,8 @@ public class DummyGame implements IGameLogic {
 			
 			
 				friendlyUnits.get(0).setAnimation(Animation.Walk);
-				friendlyUnits.get(0).Reset();
 				
 				enemyUnits.get(0).setAnimation(Animation.Walk);
-				enemyUnits.get(0).Reset();
 			friendlyUnits.get(0).SetPosition(golemX+1, 100);
 			enemyUnits.get(0).SetPosition(orcX-1, 100);
 		} else {/*
