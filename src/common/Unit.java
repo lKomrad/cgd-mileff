@@ -35,6 +35,13 @@ public class Unit {
 		
 		protected float scale;
 
+		public enum CurrentAction {
+			Idle,
+			Walking,
+			Attacking
+		}
+		protected CurrentAction currentAction;
+		
 		public enum Animation {
 			Idle,
 			Walk,
@@ -49,7 +56,10 @@ public class Unit {
 			idle_vFrames = new ArrayList<Texture2D>();
 			walk_vFrames = new ArrayList<Texture2D>();
 			attack_vFrames = new ArrayList<Texture2D>();
+			animation = Animation.Idle;
+			currentAction = CurrentAction.Idle;
 			detectionRange = 200;
+			speed = 1.5f;
 			scale = 1;
 			
 			LoadAllTextures();
@@ -63,6 +73,9 @@ public class Unit {
 			walk_vFrames = new ArrayList<Texture2D>();
 			attack_vFrames = new ArrayList<Texture2D>();
 			animation = Animation.Idle;
+			currentAction = CurrentAction.Idle;
+			detectionRange = 200;
+			speed = 1.5f;
 			scale = 1;
 			
 			/** Loading textures */
@@ -79,6 +92,9 @@ public class Unit {
 			walk_vFrames = new ArrayList<Texture2D>();
 			attack_vFrames = new ArrayList<Texture2D>();
 			animation = Animation.Idle;
+			currentAction = CurrentAction.Idle;
+			detectionRange = 200;
+			speed = 1.5f;
 			this.scale = scale;
 			
 			/** Loading textures */
@@ -165,6 +181,30 @@ public class Unit {
 			if(!this.animation.equals(animation)) {
 				this.animation = animation;	
 				Reset();
+			}
+		}
+		
+		public CurrentAction getCuttentAction() {
+			return currentAction;
+		}
+		
+		public void setCurrentAction(CurrentAction action) {
+			this.currentAction = action;			
+		}
+		
+		public void setCorrectAnimation() {
+			switch (this.currentAction) {
+			case Idle:
+				this.setAnimation(Animation.Idle);
+				break;
+			case Walking:
+				this.setAnimation(Animation.Walk);
+				break;
+			case Attacking:
+				this.setAnimation(Animation.Attack);
+				break;
+			default:
+				break;
 			}
 		}
 		

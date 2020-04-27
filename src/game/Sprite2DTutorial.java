@@ -15,7 +15,7 @@ public class Sprite2DTutorial {
 		try {
 			boolean vSync = true;
 			IGameLogic gameLogic = new DummyGame();
-			GameEngine gameEng = new GameEngine("2D Sprite Animation Demo", 1024, 768, vSync, gameLogic);
+			GameEngine gameEng = new GameEngine("2D Sprite Animation Demo", 1280, 720, vSync, gameLogic);
 			gameEng.start();
 		} catch (Exception excp) {
 			excp.printStackTrace();

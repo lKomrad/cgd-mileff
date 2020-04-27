@@ -10,6 +10,7 @@ import java.util.List;
 
 import common.Unit;
 import common.Unit.Animation;
+import common.Unit.CurrentAction;
 import common.Enemy;
 import common.Goblin;
 import common.Golem;
@@ -48,13 +49,14 @@ public class DummyGame implements IGameLogic {
 		renderer.init(window);
 		Map.loadMap();
 
-		Golem golem = new Golem(0,100);
+		Golem golem = new Golem(300,450);
 		golem.setScale(0.33f);
 		
 		friendlyUnits.add(golem);
 		
-		enemyUnits.add(new Orc(800,100,0.2f));
-		enemyUnits.add(new Ogre(800,250,0.2f));
+		enemyUnits.add(new Orc(800,50,0.2f));
+		//enemyUnits.add(new Ogre(800,250,0.2f));
+		enemyUnits.add(new Ogre(0,100,0.2f));
 		enemyUnits.add(new Goblin(800,400,0.2f));
 		
 		walking = true;
@@ -89,43 +91,50 @@ public class DummyGame implements IGameLogic {
 		float golemX = friendlyUnits.get(0).GetSpritePosX();
 		float orcX = enemyUnits.get(0).GetSpritePosX();
 		
-		checkForFights(friendlyUnits, enemyUnits);
-		
-		if (walking) {
-				//TODO csinálj metódusokat arra, hogy amikor animációt állítasz be ellenõrizze, hogy az elõzõ ugyan ez az animáció volt-e
-				//ha nem ugyan az volt, akkor reseteld a framet, ha ugyan az volt akkor ne
-			
-			
-				friendlyUnits.get(0).setAnimation(Animation.Walk);
-				
-				enemyUnits.get(0).setAnimation(Animation.Walk);
-			friendlyUnits.get(0).SetPosition(golemX+1, 100);
-			enemyUnits.get(0).SetPosition(orcX-1, 100);
-		} else {/*
-			if(!stopped) {
-				stopped = true;
-				friendlyUnits.get(0).setAnimation(Animation.Idle);
-				friendlyUnits.get(0).Reset();
-				
-				enemyUnits.get(0).setAnimation(Animation.Idle);
-				enemyUnits.get(0).Reset();*/
-			//} else {
-				friendlyUnits.get(0).setAnimation(Animation.Attack);
-				enemyUnits.get(0).setAnimation(Animation.Attack);
-			//}
-		}
-		System.out.println(GameLogic.calculateDistance(friendlyUnits.get(0), enemyUnits.get(0)));
-		
+		checkUnitActions(friendlyUnits, enemyUnits);
 	}
 	
+	public void checkUnitActions(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
+		//sorrend fontos
+		checkEnemyWalking(enemyUnits);
+		checkForFights(friendlyUnits, enemyUnits);
+		walkToGoal(enemyUnits);
+		setCorrectAnimations(friendlyUnits, enemyUnits);
+	}
 	
 	public void checkForFights(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
 		for (Enemy enemy : enemyUnits) {
 			for (Golem golem : friendlyUnits) {
 				if (GameLogic.calculateDistance(enemy, golem) < 200) {
-					walking = false;
+					enemy.setCurrentAction(CurrentAction.Attacking);
+					golem.setCurrentAction(CurrentAction.Attacking);
 				}
 			}
+		}
+	}
+	
+	public void checkEnemyWalking(List<Enemy> enemyUnits) {
+		for (Enemy enemy : enemyUnits) {
+			if(enemy.NotReachedGoal()) {
+				enemy.setCurrentAction(CurrentAction.Walking);
+			}
+		}
+	}
+	
+	public void walkToGoal(List<Enemy> enemyUnits) {
+		for (Enemy enemy : enemyUnits) {
+			if(enemy.getCuttentAction().equals(CurrentAction.Walking)) {
+				enemy.Walk();
+			}
+		}
+	}
+	
+	public void setCorrectAnimations(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
+		for (Golem golem : friendlyUnits) {
+			golem.setCorrectAnimation();
+		}
+		for (Enemy enemy : enemyUnits) {
+			enemy.setCorrectAnimation();
 		}
 	}
 

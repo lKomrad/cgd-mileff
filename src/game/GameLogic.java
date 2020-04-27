@@ -10,6 +10,12 @@ public class GameLogic {
 		return squareRoot(((vec1.x-vec2.x) * (vec1.x-vec2.x) + (vec1.y-vec2.y) * (vec1.y-vec2.y)), 1f);
 	}
 	
+	public static float calculateDistance(Vector2D vec1, Vector2D vec2) {
+		return squareRoot(((vec1.x-vec2.x) * (vec1.x-vec2.x) + (vec1.y-vec2.y) * (vec1.y-vec2.y)), 1f);
+	}
+	
+	
+	
 	static float squareRoot(float number, float precision) 
     { 
 		float start = 0, end = number; 
