@@ -21,6 +21,7 @@ import common.Orc;
 import engine.IGameLogic;
 import engine.Renderer;
 import engine.Texture2D;
+import engine.Timer;
 import engine.MapHandler;
 //import engine.Vector2D;
 import engine.Window;
@@ -31,14 +32,14 @@ public class DummyGame implements IGameLogic {
 
 	// 2D Texture items
 	//private CSprite sprite;
-	//private Golem friendlyUnits[] = new Golem[1];
 	private List<Golem> friendlyUnits = new ArrayList<Golem>();
-	//private Enemy enemyUnits[] = new Enemy[1];
 	private List<Enemy> enemyUnits = new ArrayList<Enemy>();
-	private Map map;
-	private Texture2D[][] mapTextures = new Texture2D[map.getNumberofRows()][map.getNumberofColumns()];
-	boolean walking;
-	boolean stopped;
+	//private Map map;
+	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
+	
+
+	Timer timer = new Timer();
+	float elapsedSeconds = 0;
 
 	public DummyGame() {
 		renderer = new Renderer();
@@ -58,9 +59,7 @@ public class DummyGame implements IGameLogic {
 		//enemyUnits.add(new Ogre(800,250,0.2f));
 		enemyUnits.add(new Ogre(0,100,0.2f));
 		enemyUnits.add(new Goblin(800,400,0.2f));
-		
-		walking = true;
-		stopped = false;
+		timer.init();
 	}
 
 	@Override
@@ -88,10 +87,10 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void update(float interval) {
-		float golemX = friendlyUnits.get(0).GetSpritePosX();
-		float orcX = enemyUnits.get(0).GetSpritePosX();
-		
 		checkUnitActions(friendlyUnits, enemyUnits);
+		
+		collectGarbage();
+		//System.gc();
 	}
 	
 	public void checkUnitActions(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
@@ -137,10 +136,18 @@ public class DummyGame implements IGameLogic {
 			enemy.setCorrectAnimation();
 		}
 	}
+	
+	public void collectGarbage() {
+		elapsedSeconds += timer.getElapsedTime();
+		if(elapsedSeconds > 1) {
+			elapsedSeconds = 0;
+			System.gc();
+		}
+	}
 
 	@Override
 	public void render(Window window) {
-		renderer.render(window, friendlyUnits, enemyUnits, map);
+		renderer.render(window, friendlyUnits, enemyUnits);
 	}
 
 	@Override

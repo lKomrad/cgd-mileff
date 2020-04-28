@@ -59,6 +59,10 @@ public class Enemy extends Unit {
 				float xDiff = (goal.x - currentPoz.x) / steps;
 				float yDiff = (goal.y - currentPoz.y) / steps;
 				this.SetPosition(this.GetPosition().x + xDiff, this.GetPosition().y + yDiff);
+				
+				if(currentPoz.x < this.currentGoal.x) {
+					this.facingRight = true;
+				} else this.facingRight = false;
 			}
 		}
 		

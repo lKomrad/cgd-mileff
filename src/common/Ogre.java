@@ -17,12 +17,12 @@ public class Ogre extends Enemy {
 		//idleAnimation
 		String filenames = "textures/Ogre/PNG/PNG Sequences/Idle/0_Ogre_Idle_0";
 		int numOfFrames = 18;
-		LoadTextureGroup(filenames, numOfFrames, idle_vFrames);
+		LoadTextureGroup(filenames, numOfFrames, idle_vFrames, idle_vFramesFlipped);
 		filenames = "textures/Ogre/PNG/PNG Sequences/Walking/0_Ogre_Walking_0";
 		numOfFrames = 24;
-		LoadTextureGroup(filenames, numOfFrames, walk_vFrames);
+		LoadTextureGroup(filenames, numOfFrames, walk_vFrames, walk_vFramesFlipped);
 		filenames = "textures/Ogre/PNG/PNG Sequences/Slashing/0_Ogre_Slashing_0";
 		numOfFrames = 12;
-		LoadTextureGroup(filenames, numOfFrames, attack_vFrames);
+		LoadTextureGroup(filenames, numOfFrames, attack_vFrames, attack_vFramesFlipped);
 	}
 }

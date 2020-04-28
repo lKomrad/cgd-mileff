@@ -90,7 +90,7 @@ public class Renderer {
 		shaderProgram.unbind();
 	}*/
 	
-	public void render(Window window, List<Golem> friendlyUnits, List<Enemy> enemyUnits, Map map) {
+	public void render(Window window, List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
 		clear();
 		
 		glEnable(GL_BLEND);
@@ -111,22 +111,21 @@ public class Renderer {
 
 		shaderProgram.setUniform("texture_sampler", 0);
 
-		// Render each unit
 		
 		
-			for (int i = 0; i < map.getNumberofRows(); i++) {
-				for (int j = 0; j < map.getNumberofColumns(); j++) {
-					// Set world matrix for this item
-					Matrix4f worldMatrix2 = transformation.getWorldMatrix(map.getMapTexture()[j][i].getPosition(), map.getMapTexture()[i][j].getRotation(),
-							map.getMapTexture()[i][j].getScale());
+		for (int i = 0; i < Map.getNumberofRows(); i++) {
+			for (int j = 0; j < Map.getNumberofColumns(); j++) {
+				// Set world matrix for this item
+				Matrix4f worldMatrix2 = transformation.getWorldMatrix(Map.getMapTexture()[j][i].getPosition(), Map.getMapTexture()[i][j].getRotation(),
+						Map.getMapTexture()[i][j].getScale());
 
-					shaderProgram.setUniform("worldMatrix", worldMatrix2);
+				shaderProgram.setUniform("worldMatrix", worldMatrix2);
 
-					// Render the sprite
-					map.getMapTexture()[i][j].render();
-				}
+				// Render the sprite
+				Map.getMapTexture()[i][j].render();
 			}
-				
+		}
+			// Render each unit
 		renderAllUnits(friendlyUnits, enemyUnits);
 	
 		shaderProgram.unbind();
