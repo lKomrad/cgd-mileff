@@ -105,7 +105,7 @@ public class DummyGame implements IGameLogic {
 	public void checkForFights(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
 		for (Enemy enemy : enemyUnits) {
 			for (Golem golem : friendlyUnits) {
-				if (GameLogic.calculateDistance(enemy, golem) < 200) {
+				if (GameLogic.calculateDistance(enemy, golem) < 100) {
 					enemy.setCurrentAction(CurrentAction.Attacking);
 					golem.setCurrentAction(CurrentAction.Attacking);
 				}

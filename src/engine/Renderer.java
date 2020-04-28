@@ -1,8 +1,13 @@
 package engine;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.util.List;
@@ -87,6 +92,9 @@ public class Renderer {
 	
 	public void render(Window window, List<Golem> friendlyUnits, List<Enemy> enemyUnits, Map map) {
 		clear();
+		
+		glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		if (window.isResized()) {
 			glViewport(0, 0, window.getWidth(), window.getHeight());
@@ -104,7 +112,7 @@ public class Renderer {
 		shaderProgram.setUniform("texture_sampler", 0);
 
 		// Render each unit
-		renderAllUnits(friendlyUnits, enemyUnits);
+		
 		
 			for (int i = 0; i < map.getNumberofRows(); i++) {
 				for (int j = 0; j < map.getNumberofColumns(); j++) {
@@ -119,7 +127,7 @@ public class Renderer {
 				}
 			}
 				
-				
+		renderAllUnits(friendlyUnits, enemyUnits);
 	
 		shaderProgram.unbind();
 	}

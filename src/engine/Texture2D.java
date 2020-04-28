@@ -10,6 +10,12 @@ import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glPixelStorei;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -89,10 +95,19 @@ public class Texture2D {
 		}
 
 		// Create the Mesh
-		float[] positions = new float[] { 0.0f, mHeight, 0.0f, mWidth, mHeight, 0.0f, mWidth, 0.0f, 0.0f, mWidth, 0.0f,
-				0.0f, 0.0f, 0.0f, 0.0f, 0.0f, mHeight, 0.0f, };
+		float[] positions = new float[] { 
+				0.0f, mHeight, 0.0f, 
+				mWidth, mHeight, 0.0f, 
+				mWidth, 0.0f, 0.0f, 
+				mWidth, 0.0f, 0.0f, 
+				0.0f, 0.0f, 0.0f, 
+				0.0f, mHeight, 0.0f, };
 
-		float[] textCoords = new float[] { 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+		float[] textCoords = new float[] { 
+				0.0f, 1.0f, 1.0f, 
+				1.0f, 1.0f, 0.0f, 
+				1.0f, 0.0f, 0.0f, 
+				0.0f, 0.0f, 1.0f };
 
 		mesh = new Mesh(positions, textCoords, this, 6);
 		return true;
@@ -124,8 +139,8 @@ public class Texture2D {
 		// size
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		// Upload the texture data
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE,

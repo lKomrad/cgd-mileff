@@ -58,7 +58,7 @@ public class Unit {
 			attack_vFrames = new ArrayList<Texture2D>();
 			animation = Animation.Idle;
 			currentAction = CurrentAction.Idle;
-			detectionRange = 200;
+			detectionRange = 100;
 			speed = 1.5f;
 			scale = 1;
 			
@@ -74,7 +74,7 @@ public class Unit {
 			attack_vFrames = new ArrayList<Texture2D>();
 			animation = Animation.Idle;
 			currentAction = CurrentAction.Idle;
-			detectionRange = 200;
+			detectionRange = 100;
 			speed = 1.5f;
 			scale = 1;
 			
@@ -93,7 +93,7 @@ public class Unit {
 			attack_vFrames = new ArrayList<Texture2D>();
 			animation = Animation.Idle;
 			currentAction = CurrentAction.Idle;
-			detectionRange = 200;
+			detectionRange = 100;
 			speed = 1.5f;
 			this.scale = scale;
 			
