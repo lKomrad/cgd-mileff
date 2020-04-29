@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 
 import engine.Texture2D;
+import engine.Timer;
 import engine.Vector2D;
 
 public class Unit {
@@ -24,6 +25,13 @@ public class Unit {
 	protected float detectionRange;
 	protected float speed;
 	protected boolean facingRight;
+	
+	protected Timer attackTimer;
+	protected float attackSpeed;
+	protected int framesPassed;
+	protected float elapsedTime;
+	
+	protected Unit targetUnit;
 
 	// Actual frame
 	protected int m_iActualFrame;
@@ -67,6 +75,13 @@ public class Unit {
 		detectionRange = 100;
 		speed = 1.5f;
 		scale = 1;
+		
+		attackTimer = new Timer();
+		attackTimer.init();
+		attackSpeed = 2;
+		framesPassed = 0;
+		elapsedTime = 0;
+		targetUnit = null;
 
 		LoadAllTextures();
 	}
@@ -87,6 +102,13 @@ public class Unit {
 		detectionRange = 100;
 		speed = 1.5f;
 		scale = 1;
+		
+		attackTimer = new Timer();
+		attackTimer.init();
+		attackSpeed = 2;
+		framesPassed = 0;
+		elapsedTime = 0;
+		targetUnit = null;
 
 		/** Loading textures */
 		LoadAllTextures();
@@ -110,6 +132,13 @@ public class Unit {
 		detectionRange = 100;
 		speed = 1.5f;
 		this.scale = scale;
+		
+		attackTimer = new Timer();
+		attackTimer.init();
+		attackSpeed = 2;
+		framesPassed = 0;
+		elapsedTime = 0;
+		targetUnit = null;
 
 		/** Loading textures */
 		LoadAllTextures();
@@ -227,11 +256,33 @@ public class Unit {
 			this.setAnimation(Animation.Walk);
 			break;
 		case Attacking:
-			this.setAnimation(Animation.Attack);
+			elapsedTime += attackTimer.getElapsedTime();
+			if (elapsedTime > 2) {
+				this.setAnimation(Animation.Attack);
+				framesPassed = 0;
+				elapsedTime = 0;
+			} else {
+				framesPassed ++;
+				if(framesPassed > attack_vFrames.size()) {
+					this.setAnimation(Animation.Idle);
+				} else this.setAnimation(Animation.Attack);
+			}
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public Unit getTargetUnit() {
+		return this.targetUnit;
+	}
+	
+	public void setTargetUnit(Unit target) {
+		if (targetUnit == null) targetUnit = target;
+	}
+	
+	public void attackTarget() {
+		
 	}
 
 	/** Draw Animated Sprite */
@@ -298,7 +349,6 @@ public class Unit {
 			case Attack:
 				if (++m_iActualFrame > attack_vFrames.size()) {
 					m_iActualFrame = 1;
-					this.animation = Animation.Idle;
 				}
 				break;
 			default:

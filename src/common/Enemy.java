@@ -14,16 +14,25 @@ public class Enemy extends Unit {
 		public Enemy() {
 			super();
 			currentGoal = new Vector2D(300,450);
+			
+			health = 20;
+			attack = 5;
 		}
 		
 		public Enemy(float x, float y) {
 			super(x,y);
 			currentGoal = new Vector2D(300,450);
+			
+			health = 20;
+			attack = 5;
 		}
 		
 		public Enemy(float x, float y, float scale) {
 			super(x,y,scale);
 			currentGoal = new Vector2D(300,450);
+			
+			health = 20;
+			attack = 5;
 		}
 
 		public List<Vector2D> getGoalLocations() {

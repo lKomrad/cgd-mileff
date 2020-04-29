@@ -57,7 +57,7 @@ public class DummyGame implements IGameLogic {
 		
 		enemyUnits.add(new Orc(800,50,0.2f));
 		//enemyUnits.add(new Ogre(800,250,0.2f));
-		enemyUnits.add(new Ogre(0,100,0.2f));
+		enemyUnits.add(new Ogre(0,0,0.2f));
 		enemyUnits.add(new Goblin(800,400,0.2f));
 		timer.init();
 	}
@@ -106,7 +106,10 @@ public class DummyGame implements IGameLogic {
 			for (Golem golem : friendlyUnits) {
 				if (GameLogic.calculateDistance(enemy, golem) < 100) {
 					enemy.setCurrentAction(CurrentAction.Attacking);
+					enemy.setTargetUnit(golem);
 					golem.setCurrentAction(CurrentAction.Attacking);
+					golem.setTargetUnit(enemy);
+					System.out.println(golem.getTargetUnit());
 				}
 			}
 		}
@@ -155,6 +158,5 @@ public class DummyGame implements IGameLogic {
 		renderer.cleanup();
 		//gameItems.cleanUp();
 	}
-	
 	
 }

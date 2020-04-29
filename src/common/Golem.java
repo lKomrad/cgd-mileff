@@ -12,16 +12,25 @@ public class Golem extends Unit {
 		
 		public Golem() {
 			super();
+			
+			attack = 7;
+			health = 30;
 		}
 		
 		public Golem(float x, float y) {
 			super(x,y);
+			
+			attack = 7;
+			health = 30;
 
 			m_vSpritePosition = new Vector2D(x, y);
 		}
 		
 		public Golem(float x, float y, float scale) {
 			super(x,y,scale);
+			
+			attack = 7;
+			health = 30;
 
 			m_vSpritePosition = new Vector2D(x, y);
 		}

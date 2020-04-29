@@ -152,8 +152,6 @@ public class Renderer {
 			// Render the sprite
 			enemy.Draw();
 		}
-		
-		
 	}
 
 	public void cleanup() {
