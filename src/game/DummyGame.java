@@ -49,6 +49,7 @@ public class DummyGame implements IGameLogic {
 	public void init(Window window) throws Exception {
 		renderer.init(window);
 		Map.loadMap();
+		Map.loadDecorations();
 
 		Golem golem = new Golem(300,450);
 		golem.setScale(0.33f);
