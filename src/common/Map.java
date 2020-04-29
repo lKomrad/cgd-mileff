@@ -95,6 +95,7 @@ public class Map {
 
 	public static void loadDecorations() {
 		//ezek itt ideiglenesek, majd ehelyett fileból olvassa majd be 
+		//ezt majd rendezni fogom x szerint növekvõ sorrendbe
 		decorations.add(new Decoration(600, 912, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_001.png"));
 		decorations.add(new Decoration(500, 276, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_002.png"));
 		decorations.add(new Decoration(650, 823, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_003.png"));
