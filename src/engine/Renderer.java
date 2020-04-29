@@ -121,10 +121,24 @@ public class Renderer {
 
 				shaderProgram.setUniform("worldMatrix", worldMatrix2);
 
-				// Render the sprite
+				// Render the map
 				Map.getMapTexture()[i][j].render();
 			}
 		}
+		for (Texture2D texture : Map.getDecorationTextures()) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix2 = transformation.getWorldMatrix(texture.getPosition(), texture.getRotation(),
+					texture.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+			// Render the decorations
+			texture.render();
+		}
+		
+			
+			
+		
 			// Render each unit
 		renderAllUnits(friendlyUnits, enemyUnits);
 	
