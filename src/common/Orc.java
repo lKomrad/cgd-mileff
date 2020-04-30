@@ -31,6 +31,12 @@ public class Orc extends Enemy {
 		filenames = "textures/Orc/PNG/PNG Sequences/Slashing/0_Orc_Slashing_0";
 		numOfFrames = 12;
 		LoadTextureGroup(filenames, numOfFrames, attack_vFrames, attack_vFramesFlipped);
+		filenames = "textures/Orc/PNG/PNG Sequences/Hurt/0_Orc_Hurt_0";
+		numOfFrames = 12;
+		LoadTextureGroup(filenames, numOfFrames, oof_vFrames, oof_vFramesFlipped);
+		filenames = "textures/Orc/PNG/PNG Sequences/Dying/0_Orc_Dying_0";
+		numOfFrames = 15;
+		LoadTextureGroup(filenames, numOfFrames, dying_vFrames, dying_vFramesFlipped);
 	}
 	
 }

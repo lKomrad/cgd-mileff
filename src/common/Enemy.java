@@ -3,6 +3,7 @@ package common;
 import java.util.List;
 
 import engine.Vector2D;
+import game.DummyGame;
 import game.GameLogic;
 
 public class Enemy extends Unit {
@@ -79,5 +80,17 @@ public class Enemy extends Unit {
 			if (this.GetPosition().equals(this.currentGoal)) {
 				return false;
 			} else return true;
+		}
+		
+
+		
+		public void attackTarget() {
+			targetUnit.health -= attack;
+			if (targetUnit.health < 0) {
+				DummyGame.friendlyUnits.remove(targetUnit);
+				DummyGame.dyingUnits.add(targetUnit);
+				targetUnit.setCurrentAction(CurrentAction.Dying);
+				targetUnit = null;
+			}
 		}
 }

@@ -18,11 +18,13 @@ import org.joml.Vector3f;
 
 
 import engine.Window;
+import game.DummyGame;
 import common.Enemy;
 import common.Golem;
 import common.Map;
 import common.PlaceOfTower;
 import common.Tower;
+import common.Unit;
 
 
 /**
@@ -93,7 +95,7 @@ public class Renderer {
 		shaderProgram.unbind();
 	}*/
 	
-	public void render(Window window, List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
+	public void render(Window window) {
 		clear();
 		
 		glEnable(GL_BLEND);
@@ -173,22 +175,12 @@ public class Renderer {
 			
 		
 			// Render each unit
-		renderAllUnits(friendlyUnits, enemyUnits);
+		renderAllUnits(DummyGame.friendlyUnits, DummyGame.enemyUnits, DummyGame.dyingUnits);
 	
 		shaderProgram.unbind();
 	}
 	
-	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits){
-		for (Golem friendly : friendlyUnits) {
-			// Set world matrix for this item
-			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(friendly.GetPosition().x,friendly.GetPosition().y,0), friendly.GetCurrentFrameTexture().getRotation(),
-					friendly.getScale());
-
-			shaderProgram.setUniform("worldMatrix", worldMatrix);
-
-			// Render the sprite
-			friendly.Draw();
-		}
+	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits){
 		for (Enemy enemy : enemyUnits) {
 			// Set world matrix for this item
 			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(enemy.GetPosition().x,enemy.GetPosition().y,0), enemy.GetCurrentFrameTexture().getRotation(),
@@ -198,6 +190,26 @@ public class Renderer {
 
 			// Render the sprite
 			enemy.Draw();
+		}
+		for (Unit unit : dyingUnits) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(unit.GetPosition().x,unit.GetPosition().y,0), unit.GetCurrentFrameTexture().getRotation(),
+					unit.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			unit.Draw();			
+		}
+		for (Golem friendly : friendlyUnits) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(friendly.GetPosition().x,friendly.GetPosition().y,0), friendly.GetCurrentFrameTexture().getRotation(),
+					friendly.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			friendly.Draw();
 		}
 	}
 	
