@@ -32,8 +32,8 @@ public class DummyGame implements IGameLogic {
 
 	// 2D Texture items
 	//private CSprite sprite;
-	private List<Golem> friendlyUnits = new ArrayList<Golem>();
-	private List<Enemy> enemyUnits = new ArrayList<Enemy>();
+	public static List<Golem> friendlyUnits = new ArrayList<Golem>();
+	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
 	
@@ -110,7 +110,6 @@ public class DummyGame implements IGameLogic {
 					enemy.setTargetUnit(golem);
 					golem.setCurrentAction(CurrentAction.Attacking);
 					golem.setTargetUnit(enemy);
-					System.out.println(golem.getTargetUnit());
 				}
 			}
 		}

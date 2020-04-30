@@ -265,6 +265,7 @@ public class Unit {
 				framesPassed ++;
 				if(framesPassed > attack_vFrames.size()) {
 					this.setAnimation(Animation.Idle);
+					attackTarget();
 				} else this.setAnimation(Animation.Attack);
 			}
 			break;
@@ -280,6 +281,8 @@ public class Unit {
 	public void setTargetUnit(Unit target) {
 		if (targetUnit == null) targetUnit = target;
 	}
+	
+
 	
 	public void attackTarget() {
 		
