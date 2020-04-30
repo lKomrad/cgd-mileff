@@ -35,15 +35,13 @@ public class DummyGame implements IGameLogic {
 
 	// 2D Texture items
 	//private CSprite sprite;
-<<<<<<< HEAD
-	private List<Golem> friendlyUnits = new ArrayList<Golem>();
-	private List<Enemy> enemyUnits = new ArrayList<Enemy>();
-	private List<PlaceOfTower> towers = new ArrayList<PlaceOfTower>();
-=======
+
+
+
 	public static List<Golem> friendlyUnits = new ArrayList<Golem>();
 	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
 	public static List<Unit> dyingUnits = new ArrayList<Unit>();
->>>>>>> branch 'master' of https://github.com/lKomrad/cgd-mileff
+
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
 	
@@ -60,17 +58,14 @@ public class DummyGame implements IGameLogic {
 		renderer.init(window);
 		Map.loadMap();
 		Map.loadDecorations();
-<<<<<<< HEAD
+
 		//valamiért nem fut le a dekoráció, ha a loadTowerPlaces() itt van
 		Map.loadTowerPlaces();
 		
 		
 		
-		Golem golem = new Golem(300,450);
-=======
 
 		Golem golem = new Golem(300,500);
->>>>>>> branch 'master' of https://github.com/lKomrad/cgd-mileff
 		golem.setScale(0.33f);
 		
 		friendlyUnits.add(golem);
@@ -140,10 +135,10 @@ public class DummyGame implements IGameLogic {
 					enemy.setTargetUnit(golem);
 					golem.setCurrentAction(CurrentAction.Attacking);
 					golem.setTargetUnit(enemy);
-<<<<<<< HEAD
+
 					//System.out.println(golem.getTargetUnit());
-=======
->>>>>>> branch 'master' of https://github.com/lKomrad/cgd-mileff
+
+
 				}
 			}
 		}
