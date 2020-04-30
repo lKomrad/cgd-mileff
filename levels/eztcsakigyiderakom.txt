@@ -1,0 +1,13 @@
+780 380 0 textures/MapComponents/kiegeszitok/fold_001.png
+800 340 0 textures/MapComponents/epulet/bastya/bastya_001.png
+30 240 0 textures/MapComponents/kiegeszitok/fold_001.png
+50 200 0 textures/MapComponents/epulet/bastya/bastya_002.png
+300 265 0 textures/MapComponents/kiegeszitok/fold_001.png
+300 220 0 textures/MapComponents/epulet/bastya/bastya_003.png
+1000 265 0 textures/MapComponents/kiegeszitok/fold_001.png
+1000 220 0 textures/MapComponents/epulet/bastya/bastya_004.png
+330 440 0 textures/MapComponents/kiegeszitok/fold_001.png
+350 380 0 textures/MapComponents/epulet/bastya/bastya_005.png
+880 540 0 textures/MapComponents/kiegeszitok/fold_001.png
+900 480 0 textures/MapComponents/epulet/bastya/bastya_006.png
+

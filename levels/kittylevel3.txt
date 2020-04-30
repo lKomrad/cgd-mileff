@@ -1,0 +1,6 @@
+780 380 0 textures/MapComponents/kiegeszitok/fold_001.png
+30 240 0 textures/MapComponents/kiegeszitok/fold_001.png
+300 265 0 textures/MapComponents/kiegeszitok/fold_001.png
+1000 265 0 textures/MapComponents/kiegeszitok/fold_001.png
+330 440 0 textures/MapComponents/kiegeszitok/fold_001.png
+880 540 0 textures/MapComponents/kiegeszitok/fold_001.png

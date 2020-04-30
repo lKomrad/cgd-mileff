@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import common.Decoration;
+import common.PlaceOfTower;
 
 
 public class MapHandler {
 
 	private int[][] map;
 	private ArrayList<Decoration> decorations;
+	private ArrayList<PlaceOfTower> placeOfTowers;
 	private static int rows;
 	private static int columns;
 
@@ -24,10 +26,11 @@ public class MapHandler {
 		this.map = map;
 	}
 
-	public MapHandler(String filename, String decfilename, int rows, int columns) {
+	public MapHandler(String filename, String decfilename, String potfilename, int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
-		this.decorations = readDecorationFile(decfilename);
+		decorations = readDecorationFile(decfilename);
+		placeOfTowers = readTowerplaceFile(potfilename);
 		map = readMapFile(filename);
 	}
 	
@@ -36,6 +39,14 @@ public class MapHandler {
 
 	public static int getRows() {
 		return rows;
+	}
+
+	public ArrayList<PlaceOfTower> getPlaceOfTowers() {
+		return placeOfTowers;
+	}
+
+	public void setPlaceOfTowers(ArrayList<PlaceOfTower> placeOfTowers) {
+		this.placeOfTowers = placeOfTowers;
 	}
 
 	public ArrayList<Decoration> getDecorations() {
@@ -88,6 +99,29 @@ public class MapHandler {
 			return null;
 		}
 	}
+	
+	public static ArrayList<PlaceOfTower> readTowerplaceFile(String filename) {
+		try {
+			File file = new File(filename);
+			Scanner sc = new Scanner(file);
+			ArrayList<PlaceOfTower> decs = new ArrayList<PlaceOfTower>();
+			
+			while (sc.hasNextLine()) {
+				PlaceOfTower dec = new PlaceOfTower();
+				dec.setX(sc.nextInt());
+				dec.setY(sc.nextInt());
+				dec.setZ(sc.nextInt());
+				dec.setFilename(sc.next());
+				decs.add(dec);
+			}
+			System.out.println(decs);
+			return decs;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+
 	
 	
 

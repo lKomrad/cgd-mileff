@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glViewport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Matrix4f;
@@ -20,6 +21,8 @@ import engine.Window;
 import common.Enemy;
 import common.Golem;
 import common.Map;
+import common.PlaceOfTower;
+import common.Tower;
 
 
 /**
@@ -135,8 +138,38 @@ public class Renderer {
 			// Render the decorations
 			texture.render();
 		}
+		for (Texture2D texture : Map.getPlaceOfTowersTextures()) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix2 = transformation.getWorldMatrix(texture.getPosition(), texture.getRotation(),
+					texture.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+			// Render the decorations
+			texture.render();
+		}
 		
+		for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
+		
+				try {
+					Texture2D potTexture = new Texture2D();
+					potTexture = pot.getTower().loadTowerTexture();
+					// Set world matrix for this item
+					Matrix4f worldMatrix2 = transformation.getWorldMatrix(potTexture.getPosition(), potTexture.getRotation(),
+							potTexture.getScale());
+
+					shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+					// Render the decorations
+					potTexture.render();
+				}
+				catch(Exception e) {
+					
+				}
+				
 			
+			
+		}
 			
 		
 			// Render each unit
@@ -167,6 +200,8 @@ public class Renderer {
 			enemy.Draw();
 		}
 	}
+	
+	
 
 	public void cleanup() {
 		if (shaderProgram != null) {

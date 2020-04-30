@@ -8,6 +8,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Matrix4f;
+
 import common.Unit;
 import common.Unit.Animation;
 import common.Unit.CurrentAction;
@@ -17,6 +19,7 @@ import common.Golem;
 import common.Map;
 import common.Ogre;
 import common.Orc;
+import common.PlaceOfTower;
 //import engine.CSprite;
 import engine.IGameLogic;
 import engine.Renderer;
@@ -34,6 +37,7 @@ public class DummyGame implements IGameLogic {
 	//private CSprite sprite;
 	private List<Golem> friendlyUnits = new ArrayList<Golem>();
 	private List<Enemy> enemyUnits = new ArrayList<Enemy>();
+	private List<PlaceOfTower> towers = new ArrayList<PlaceOfTower>();
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
 	
@@ -50,7 +54,11 @@ public class DummyGame implements IGameLogic {
 		renderer.init(window);
 		Map.loadMap();
 		Map.loadDecorations();
-
+		//valamiért nem fut le a dekoráció, ha a loadTowerPlaces() itt van
+		Map.loadTowerPlaces();
+		
+		
+		
 		Golem golem = new Golem(300,450);
 		golem.setScale(0.33f);
 		
@@ -68,6 +76,17 @@ public class DummyGame implements IGameLogic {
 		if (window.isKeyPressed('A')) {
 			friendlyUnits.get(0).Reset();
 			friendlyUnits.get(0).Attack();
+
+		}
+		 else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
+			 int i = 0;
+			 for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
+				 
+				 pot.placeTower("textures/MapComponents/epulet/bastya/bastya_001.png");
+				 System.out.println("EZLEFUT?!?!?!" + i);
+				 i++;
+				}
+				
 
 		}/* else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
 			Vector2D pos = sprite.GetPosition();
@@ -110,7 +129,7 @@ public class DummyGame implements IGameLogic {
 					enemy.setTargetUnit(golem);
 					golem.setCurrentAction(CurrentAction.Attacking);
 					golem.setTargetUnit(enemy);
-					System.out.println(golem.getTargetUnit());
+					//System.out.println(golem.getTargetUnit());
 				}
 			}
 		}
