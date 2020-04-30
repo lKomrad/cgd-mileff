@@ -85,10 +85,12 @@ public class Enemy extends Unit {
 
 		
 		public void attackTarget() {
-			System.out.println("bruh");
 			targetUnit.health -= attack;
 			if (targetUnit.health < 0) {
 				DummyGame.friendlyUnits.remove(targetUnit);
+				DummyGame.dyingUnits.add(targetUnit);
+				targetUnit.setCurrentAction(CurrentAction.Dying);
+				targetUnit = null;
 			}
 		}
 }

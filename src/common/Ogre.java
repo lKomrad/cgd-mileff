@@ -24,5 +24,11 @@ public class Ogre extends Enemy {
 		filenames = "textures/Ogre/PNG/PNG Sequences/Slashing/0_Ogre_Slashing_0";
 		numOfFrames = 12;
 		LoadTextureGroup(filenames, numOfFrames, attack_vFrames, attack_vFramesFlipped);
+		filenames = "textures/Ogre/PNG/PNG Sequences/Hurt/0_Ogre_Hurt_0";
+		numOfFrames = 12;
+		LoadTextureGroup(filenames, numOfFrames, oof_vFrames, oof_vFramesFlipped);
+		filenames = "textures/Ogre/PNG/PNG Sequences/Dying/0_Ogre_Dying_0";
+		numOfFrames = 15;
+		LoadTextureGroup(filenames, numOfFrames, dying_vFrames, dying_vFramesFlipped);
 	}
 }
