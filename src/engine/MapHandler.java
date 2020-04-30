@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import common.Decoration;
+
 
 public class MapHandler {
 
 	private int[][] map;
+	private ArrayList<Decoration> decorations;
 	private static int rows;
 	private static int columns;
 
@@ -21,9 +24,10 @@ public class MapHandler {
 		this.map = map;
 	}
 
-	public MapHandler(String filename, int rows, int columns) {
+	public MapHandler(String filename, String decfilename, int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
+		this.decorations = readDecorationFile(decfilename);
 		map = readMapFile(filename);
 	}
 	
@@ -32,6 +36,14 @@ public class MapHandler {
 
 	public static int getRows() {
 		return rows;
+	}
+
+	public ArrayList<Decoration> getDecorations() {
+		return decorations;
+	}
+
+	public void setDecorations(ArrayList<Decoration> decorations) {
+		this.decorations = decorations;
 	}
 
 	public static int getColumns() {
@@ -56,6 +68,26 @@ public class MapHandler {
 		}
 	}
 	
+	public static ArrayList<Decoration> readDecorationFile(String filename) {
+		try {
+			File file = new File(filename);
+			Scanner sc = new Scanner(file);
+			ArrayList<Decoration> decs = new ArrayList<Decoration>();
+			
+			while (sc.hasNextLine()) {
+				Decoration dec = new Decoration();
+				dec.setX(sc.nextInt());
+				dec.setY(sc.nextInt());
+				dec.setZ(sc.nextInt());
+				dec.setFilename(sc.next());
+				decs.add(dec);
+			}
+			System.out.println(decs);
+			return decs;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	
 

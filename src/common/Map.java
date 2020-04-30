@@ -8,13 +8,13 @@ import engine.Texture2D;
 
 public class Map {
 	
-	private static MapHandler txtReader = new MapHandler("levels/kittylevel.txt", 12, 12);
+	private static MapHandler txtReader = new MapHandler("levels/kittylevel.txt", "levels/kittylevel2.txt", 12, 12);
 	private static int numberofRows = MapHandler.getRows();
 	private static int numberofColumns = MapHandler.getColumns();
 	//private static MapComponent[][] map = txtReader.getMap();
 	private static int[][] map = txtReader.getMap();
 	private static Texture2D[][] mapTexture = new Texture2D[MapHandler.getRows()][MapHandler.getColumns()];
-	private static ArrayList<Decoration> decorations = new ArrayList();
+	private static ArrayList<Decoration> decorations = txtReader.getDecorations();
 	private static ArrayList<Texture2D> decorationTextures = new ArrayList();
 	
 	
@@ -96,7 +96,7 @@ public class Map {
 	public static void loadDecorations() {
 		//ezek itt ideiglenesek, majd ehelyett fileból olvassa majd be 
 		//ezt majd rendezni fogom x szerint növekvõ sorrendbe
-		decorations.add(new Decoration(600, 912, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_001.png"));
+		/*decorations.add(new Decoration(600, 912, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_001.png"));
 		decorations.add(new Decoration(500, 276, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_002.png"));
 		decorations.add(new Decoration(650, 823, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_003.png"));
 		decorations.add(new Decoration(640, 730, 0, "textures/MapComponents/kiegeszitok/kivagott_fa_004.png"));
@@ -108,7 +108,7 @@ public class Map {
 		decorations.add(new Decoration(54, 870, 0, "textures/MapComponents/kiegeszitok/fu_002.png"));
 		decorations.add(new Decoration(150, 790, 0, "textures/MapComponents/kiegeszitok/fu_001.png"));
 		decorations.add(new Decoration(187, 30, 0, "textures/MapComponents/kiegeszitok/fu_002.png"));
-		decorations.add(new Decoration(1100, 20, 0, "textures/MapComponents/kiegeszitok/fu_003.png"));
+		decorations.add(new Decoration(1100, 20, 0, "textures/MapComponents/kiegeszitok/fu_003.png"));*/
 		
 		System.out.println("lefutok?");
 		ArrayList<Texture2D> decTextures = new ArrayList<Texture2D>();
