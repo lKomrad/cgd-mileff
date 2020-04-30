@@ -19,6 +19,10 @@ public class Unit {
 	protected ArrayList<Texture2D> walk_vFramesFlipped;
 	protected ArrayList<Texture2D> attack_vFrames;
 	protected ArrayList<Texture2D> attack_vFramesFlipped;
+	protected ArrayList<Texture2D> oof_vFrames;
+	protected ArrayList<Texture2D> oof_vFramesFlipped;
+	protected ArrayList<Texture2D> dying_vFrames;
+	protected ArrayList<Texture2D> dying_vFramesFlipped;
 
 	protected int health;
 	protected int attack;
@@ -30,6 +34,9 @@ public class Unit {
 	protected float attackSpeed;
 	protected int framesPassed;
 	protected float elapsedTime;
+	protected boolean attacked;
+	
+	protected int dyingFrames;
 	
 	protected Unit targetUnit;
 
@@ -48,13 +55,13 @@ public class Unit {
 	protected float scale;
 
 	public enum CurrentAction {
-		Idle, Walking, Attacking
+		Idle, Walking, Attacking, Dying
 	}
 
 	protected CurrentAction currentAction;
 
 	public enum Animation {
-		Idle, Walk, Attack
+		Idle, Walk, Attack, Oof, Dying
 	}
 
 	protected Animation animation;
@@ -66,14 +73,18 @@ public class Unit {
 		idle_vFrames = new ArrayList<Texture2D>();
 		walk_vFrames = new ArrayList<Texture2D>();
 		attack_vFrames = new ArrayList<Texture2D>();
+		oof_vFrames = new ArrayList<Texture2D>();
+		dying_vFrames = new ArrayList<Texture2D>();
 		idle_vFramesFlipped = new ArrayList<Texture2D>();
 		walk_vFramesFlipped = new ArrayList<Texture2D>();
 		attack_vFramesFlipped = new ArrayList<Texture2D>();
+		oof_vFramesFlipped = new ArrayList<Texture2D>();
+		dying_vFramesFlipped = new ArrayList<Texture2D>();
 		animation = Animation.Idle;
 		currentAction = CurrentAction.Idle;
 		facingRight = true;
 		detectionRange = 100;
-		speed = 1.5f;
+		speed = 1.2f;
 		scale = 1;
 		
 		attackTimer = new Timer();
@@ -82,6 +93,9 @@ public class Unit {
 		framesPassed = 0;
 		elapsedTime = 0;
 		targetUnit = null;
+		attacked = true;
+		
+		dyingFrames = 0;
 
 		LoadAllTextures();
 	}
@@ -93,14 +107,18 @@ public class Unit {
 		idle_vFrames = new ArrayList<Texture2D>();
 		walk_vFrames = new ArrayList<Texture2D>();
 		attack_vFrames = new ArrayList<Texture2D>();
+		oof_vFrames = new ArrayList<Texture2D>();
+		dying_vFrames = new ArrayList<Texture2D>();
 		idle_vFramesFlipped = new ArrayList<Texture2D>();
 		walk_vFramesFlipped = new ArrayList<Texture2D>();
 		attack_vFramesFlipped = new ArrayList<Texture2D>();
+		oof_vFramesFlipped = new ArrayList<Texture2D>();
+		dying_vFramesFlipped = new ArrayList<Texture2D>();
 		animation = Animation.Idle;
 		currentAction = CurrentAction.Idle;
 		facingRight = true;
 		detectionRange = 100;
-		speed = 1.5f;
+		speed = 1.2f;
 		scale = 1;
 		
 		attackTimer = new Timer();
@@ -109,6 +127,9 @@ public class Unit {
 		framesPassed = 0;
 		elapsedTime = 0;
 		targetUnit = null;
+		attacked = true;
+		
+		dyingFrames = 0;
 
 		/** Loading textures */
 		LoadAllTextures();
@@ -123,14 +144,18 @@ public class Unit {
 		idle_vFrames = new ArrayList<Texture2D>();
 		walk_vFrames = new ArrayList<Texture2D>();
 		attack_vFrames = new ArrayList<Texture2D>();
+		oof_vFrames = new ArrayList<Texture2D>();
+		dying_vFrames = new ArrayList<Texture2D>();
 		idle_vFramesFlipped = new ArrayList<Texture2D>();
 		walk_vFramesFlipped = new ArrayList<Texture2D>();
 		attack_vFramesFlipped = new ArrayList<Texture2D>();
+		oof_vFramesFlipped = new ArrayList<Texture2D>();
+		dying_vFramesFlipped = new ArrayList<Texture2D>();
 		animation = Animation.Idle;
 		currentAction = CurrentAction.Idle;
 		facingRight = true;
 		detectionRange = 100;
-		speed = 1.5f;
+		speed = 1.2f;
 		this.scale = scale;
 		
 		attackTimer = new Timer();
@@ -139,6 +164,9 @@ public class Unit {
 		framesPassed = 0;
 		elapsedTime = 0;
 		targetUnit = null;
+		attacked = true;
+		
+		dyingFrames = 0;
 
 		/** Loading textures */
 		LoadAllTextures();
@@ -157,6 +185,12 @@ public class Unit {
 		filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Attacking/Golem_01_Attacking_0";
 		numOfFrames = 12;
 		LoadTextureGroup(filenames, numOfFrames, attack_vFrames, attack_vFramesFlipped);
+		filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Hurt/Golem_01_Hurt_0";
+		numOfFrames = 12;
+		LoadTextureGroup(filenames, numOfFrames, oof_vFrames, oof_vFramesFlipped);
+		filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Dying/Golem_01_Dying_0";
+		numOfFrames = 15;
+		LoadTextureGroup(filenames, numOfFrames, dying_vFrames, dying_vFramesFlipped);
 	}
 
 	/** Loads sprite textures */
@@ -247,6 +281,7 @@ public class Unit {
 		this.currentAction = action;
 	}
 
+	//also handles attacking
 	public void setCorrectAnimation() {
 		switch (this.currentAction) {
 		case Idle:
@@ -257,16 +292,29 @@ public class Unit {
 			break;
 		case Attacking:
 			elapsedTime += attackTimer.getElapsedTime();
-			if (elapsedTime > 2) {
+			if (elapsedTime > 2 && targetUnit != null) {
+				turnToTarget();
 				this.setAnimation(Animation.Attack);
 				framesPassed = 0;
 				elapsedTime = 0;
+				attacked = false;
 			} else {
 				framesPassed ++;
-				if(framesPassed > attack_vFrames.size()) {
+				if(framesPassed > attack_vFrames.size() + 1 && !attacked) {
 					this.setAnimation(Animation.Idle);
-				} else this.setAnimation(Animation.Attack);
+					try {
+						attackTarget();
+						//targetUnit.setAnimation(Animation.Oof);
+					} catch (Exception e) {
+						this.setCurrentAction(CurrentAction.Idle);
+					}
+					framesPassed = 0;
+					attacked = true;
+				}
 			}
+			break;
+		case Dying:
+			this.setAnimation(Animation.Dying);
 			break;
 		default:
 			break;
@@ -280,9 +328,15 @@ public class Unit {
 	public void setTargetUnit(Unit target) {
 		if (targetUnit == null) targetUnit = target;
 	}
-	
+
 	public void attackTarget() {
 		
+	}
+	
+	public void turnToTarget() {
+		if(this.GetSpritePosX() > targetUnit.GetSpritePosX()) {
+			facingRight = false;
+		} else facingRight = true;
 	}
 
 	/** Draw Animated Sprite */
@@ -299,6 +353,12 @@ public class Unit {
 			case Attack:
 				tex = attack_vFrames.get(m_iActualFrame - 1);
 				break;
+			case Oof:
+				tex = oof_vFrames.get(m_iActualFrame - 1);
+				break;
+			case Dying:
+				tex = dying_vFrames.get(m_iActualFrame - 1);
+				break;
 			default:
 				tex = idle_vFrames.get(m_iActualFrame - 1);
 				break;
@@ -313,6 +373,12 @@ public class Unit {
 				break;
 			case Attack:
 				tex = attack_vFramesFlipped.get(m_iActualFrame - 1);
+				break;
+			case Oof:
+				tex = oof_vFramesFlipped.get(m_iActualFrame - 1);
+				break;
+			case Dying:
+				tex = dying_vFramesFlipped.get(m_iActualFrame - 1);
 				break;
 			default:
 				tex = idle_vFramesFlipped.get(m_iActualFrame - 1);
@@ -349,6 +415,16 @@ public class Unit {
 			case Attack:
 				if (++m_iActualFrame > attack_vFrames.size()) {
 					m_iActualFrame = 1;
+				}
+				break;
+			case Oof:
+				if (++m_iActualFrame > oof_vFrames.size()) {
+					setAnimation(Animation.Idle);
+				}
+				break;
+			case Dying:
+				if (m_iActualFrame < dying_vFrames.size()) {
+					m_iActualFrame++;
 				}
 				break;
 			default:

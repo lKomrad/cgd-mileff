@@ -32,8 +32,9 @@ public class DummyGame implements IGameLogic {
 
 	// 2D Texture items
 	//private CSprite sprite;
-	private List<Golem> friendlyUnits = new ArrayList<Golem>();
-	private List<Enemy> enemyUnits = new ArrayList<Enemy>();
+	public static List<Golem> friendlyUnits = new ArrayList<Golem>();
+	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
+	public static List<Unit> dyingUnits = new ArrayList<Unit>();
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
 	
@@ -51,7 +52,7 @@ public class DummyGame implements IGameLogic {
 		Map.loadMap();
 		Map.loadDecorations();
 
-		Golem golem = new Golem(300,450);
+		Golem golem = new Golem(300,500);
 		golem.setScale(0.33f);
 		
 		friendlyUnits.add(golem);
@@ -88,18 +89,18 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void update(float interval) {
-		checkUnitActions(friendlyUnits, enemyUnits);
+		checkUnitActions(friendlyUnits, enemyUnits, dyingUnits);
 		
 		collectGarbage();
 		//System.gc();
 	}
 	
-	public void checkUnitActions(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
+	public void checkUnitActions(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits) {
 		//sorrend fontos
 		checkEnemyWalking(enemyUnits);
 		checkForFights(friendlyUnits, enemyUnits);
 		walkToGoal(enemyUnits);
-		setCorrectAnimations(friendlyUnits, enemyUnits);
+		setCorrectAnimations(friendlyUnits, enemyUnits, dyingUnits);
 	}
 	
 	public void checkForFights(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
@@ -110,7 +111,6 @@ public class DummyGame implements IGameLogic {
 					enemy.setTargetUnit(golem);
 					golem.setCurrentAction(CurrentAction.Attacking);
 					golem.setTargetUnit(enemy);
-					System.out.println(golem.getTargetUnit());
 				}
 			}
 		}
@@ -132,13 +132,20 @@ public class DummyGame implements IGameLogic {
 		}
 	}
 	
-	public void setCorrectAnimations(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
+	public void setCorrectAnimations(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits) {
 		for (Golem golem : friendlyUnits) {
 			golem.setCorrectAnimation();
 		}
 		for (Enemy enemy : enemyUnits) {
 			enemy.setCorrectAnimation();
 		}
+		for (Unit unit : dyingUnits) {
+			unit.setCorrectAnimation();
+		}
+	}
+	
+	public void checkDyingUnits(List<Unit> dyingUnits) {
+		
 	}
 	
 	public void collectGarbage() {
@@ -151,7 +158,7 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void render(Window window) {
-		renderer.render(window, friendlyUnits, enemyUnits);
+		renderer.render(window);
 	}
 
 	@Override

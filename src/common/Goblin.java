@@ -24,5 +24,11 @@ public class Goblin extends Enemy {
 		filenames = "textures/Goblin/PNG/PNG Sequences/Slashing/0_Goblin_Slashing_0";
 		numOfFrames = 12;
 		LoadTextureGroup(filenames, numOfFrames, attack_vFrames, attack_vFramesFlipped);
+		filenames = "textures/Goblin/PNG/PNG Sequences/Hurt/0_Goblin_Hurt_0";
+		numOfFrames = 12;
+		LoadTextureGroup(filenames, numOfFrames, oof_vFrames, oof_vFramesFlipped);
+		filenames = "textures/Goblin/PNG/PNG Sequences/Dying/0_Goblin_Dying_0";
+		numOfFrames = 15;
+		LoadTextureGroup(filenames, numOfFrames, dying_vFrames, dying_vFramesFlipped);
 	}
 }
