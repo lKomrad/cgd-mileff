@@ -31,6 +31,8 @@ import engine.Window;
 
 public class DummyGame implements IGameLogic {
 
+	private static final int GLFW_MOUSE_BUTTON_1 = 0;
+
 	private final Renderer renderer;
 
 	// 2D Texture items
@@ -84,7 +86,7 @@ public class DummyGame implements IGameLogic {
 			friendlyUnits.get(0).Attack();
 
 		}
-		 else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
+		 else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
 			 int i = 0;
 			 for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
 				 
@@ -156,6 +158,7 @@ public class DummyGame implements IGameLogic {
 		for (Enemy enemy : enemyUnits) {
 			if(enemy.getCuttentAction().equals(CurrentAction.Walking)) {
 				enemy.Walk();
+				
 			}
 		}
 	}

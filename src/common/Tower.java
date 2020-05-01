@@ -8,7 +8,7 @@ public class Tower extends Decoration{
 			if(getFilename() != null) {
 				Texture2D tower = new Texture2D();
 				tower.CreateTexture(getFilename());
-				tower.setPosition(getX(), getY(), getZ());
+				tower.setPosition(getX() + 20, getY() -40, getZ());
 				return tower;
 			}
 			return null;

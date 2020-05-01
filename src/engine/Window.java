@@ -20,6 +20,8 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
@@ -42,6 +44,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
@@ -59,12 +62,19 @@ public class Window {
     private GLFWErrorCallback errorCallback;
 
     private GLFWKeyCallback keyCallback;
-
+    
+    private GLFWMouseButtonCallback mouseCallback;
+    
     private GLFWWindowSizeCallback windowSizeCallback;
 
     private boolean resized;
 
     private boolean vSync;
+    
+    private static final int MOUSE_SIZE = 16;
+
+    private static int[] mouseButtonStates = new int[MOUSE_SIZE];
+    private static boolean[] activeMouseButtons = new boolean[MOUSE_SIZE];
 
     public Window(String title, int width, int height, boolean vSync) {
         this.title = title;
@@ -116,6 +126,17 @@ public class Window {
                 }
             }
         });
+        
+        glfwSetMouseButtonCallback(windowHandle, mouseCallback = new GLFWMouseButtonCallback(){
+			@Override
+			public void invoke(long window, int button, int action, int mods) {
+				// TODO Auto-generated method stub
+				activeMouseButtons[button] = action != GLFW_RELEASE;
+	            mouseButtonStates[button] = action;
+			}
+        });
+        
+        
 
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -154,6 +175,18 @@ public class Window {
     public boolean isKeyPressed(int keyCode) {
         return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
+    
+    public boolean mouseButtonDown(int button)
+    {
+        return activeMouseButtons[button];
+    }
+
+    public boolean mouseButtonPressed(int button)
+    {
+        return mouseButtonStates[button] == GLFW_RELEASE;
+    }
+    
+    
 
     public boolean windowShouldClose() {
         return glfwWindowShouldClose(windowHandle);
@@ -191,4 +224,6 @@ public class Window {
         glfwSwapBuffers(windowHandle);
         glfwPollEvents();
     }
+    
+   
 }
