@@ -21,6 +21,7 @@ import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
@@ -40,8 +41,14 @@ import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
+import java.nio.DoubleBuffer;
+
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import org.joml.Vector2f;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
@@ -65,6 +72,8 @@ public class Window {
     
     private GLFWMouseButtonCallback mouseCallback;
     
+    private GLFWCursorPosCallback cursorPosCallback;
+    
     private GLFWWindowSizeCallback windowSizeCallback;
 
     private boolean resized;
@@ -72,6 +81,10 @@ public class Window {
     private boolean vSync;
     
     private static final int MOUSE_SIZE = 16;
+    
+    private static double mousePosx = 0;
+    
+    private static double mousePosy = 0;
 
     private static int[] mouseButtonStates = new int[MOUSE_SIZE];
     private static boolean[] activeMouseButtons = new boolean[MOUSE_SIZE];
@@ -136,6 +149,23 @@ public class Window {
 			}
         });
         
+        glfwSetCursorPosCallback(windowHandle, cursorPosCallback = new GLFWCursorPosCallback(){
+
+			@Override
+			public void invoke(long window, double xpos, double ypos) {
+				  DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
+				  DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
+				  glfwGetCursorPos(window, x, y);
+				  xpos = (int) Math.round(x.get());
+				  ypos = (int) Math.round(y.get());
+				  mousePosx = xpos;
+				  mousePosy = ypos;
+		          //System.out.println(mousePosx + "," + mousePosy);
+				
+			}
+
+        });
+        
         
 
         // Get the resolution of the primary monitor
@@ -186,7 +216,13 @@ public class Window {
         return mouseButtonStates[button] == GLFW_RELEASE;
     }
     
+    public double getCursorXPosition() {
+    	return mousePosx;
+    }
     
+    public double getCursorYPosition() {
+    	return mousePosy;
+    }
 
     public boolean windowShouldClose() {
         return glfwWindowShouldClose(windowHandle);

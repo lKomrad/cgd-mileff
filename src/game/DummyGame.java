@@ -1,14 +1,20 @@
 package game;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
-
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.lwjgl.BufferUtils;
 
 import common.Unit;
 import common.Unit.Animation;
@@ -31,7 +37,9 @@ import engine.Window;
 
 public class DummyGame implements IGameLogic {
 
-	private static final int GLFW_MOUSE_BUTTON_1 = 0;
+	//private static final int GLFW_MOUSE_BUTTON_1 = 0;
+
+	//private static final int GLFW_MOUSE_BUTTON_2 = 0;
 
 	private final Renderer renderer;
 
@@ -63,7 +71,7 @@ public class DummyGame implements IGameLogic {
 
 		//valamiért nem fut le a dekoráció, ha a loadTowerPlaces() itt van
 		Map.loadTowerPlaces();
-		
+		//initCurrentMousePosition(200);
 		
 		
 
@@ -86,14 +94,18 @@ public class DummyGame implements IGameLogic {
 			friendlyUnits.get(0).Attack();
 
 		}
+		//ez így valamiért lefut többször (valszeg amiatt, hogy a lent töltött idõt érzékeli)
+		//lehet inkább a másik metódus kellett volna, dehát na, most ez mûkszik 
 		 else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
-			 int i = 0;
-			 for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
-				 
-				 pot.placeTower("textures/MapComponents/epulet/bastya/bastya_001.png");
-				 System.out.println("EZLEFUT?!?!?!" + i);
-				 i++;
-				}
+			 addTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_001.png");
+				
+
+		}else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
+			addTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_003.png");
+
+		}
+		else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_3)) {
+			addTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_005.png");
 				
 
 		}/* else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
@@ -196,6 +208,22 @@ public class DummyGame implements IGameLogic {
 	public void cleanup() {
 		renderer.cleanup();
 		//gameItems.cleanUp();
+	}
+	
+	public void addTowerMouseClick(Window window, String filename) {
+		 System.out.println(window.getCursorXPosition() + "," + window.getCursorYPosition());
+			
+		 for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
+			 //bonk big box kell majd ide
+			 if(window.getCursorXPosition() > pot.getX() && window.getCursorXPosition() < pot.getX() + 100) {
+				 if(window.getCursorYPosition() > pot.getY() && window.getCursorYPosition() < pot.getY() + 40) {
+					 pot.placeTower(filename);
+				 }
+			 }
+			
+			 
+			 
+			}
 	}
 	
 }
