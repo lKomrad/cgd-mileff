@@ -7,7 +7,7 @@ import engine.Vector2D;
 import game.DummyGame;
 import game.GameLogic;
 
-public class Enemy extends Unit {
+public abstract class Enemy extends Unit {
 
 		private List<Vector2D> goalLocations;
 		
@@ -95,6 +95,8 @@ public class Enemy extends Unit {
 				return true;
 			}
 		}
+		
+		public abstract void setCorrectAnimation();
 		
 
 		public void attackTarget() {

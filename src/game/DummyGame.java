@@ -75,6 +75,11 @@ public class DummyGame implements IGameLogic {
 		//valamiért nem fut le a dekoráció, ha a loadTowerPlaces() itt van
 		Map.loadTowerPlaces();
 		//initCurrentMousePosition(200);
+		Golem.LoadAllTextures();
+		Goblin.LoadAllTextures();
+		Ogre.LoadAllTextures();
+		Orc.LoadAllTextures();
+		Projectile.LoadAllTextures();
 		
 		
 

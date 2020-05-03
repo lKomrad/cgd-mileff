@@ -8,19 +8,8 @@ import engine.Texture2D;
 import engine.Timer;
 import engine.Vector2D;
 
-public class Unit {
+public abstract class Unit {
 	
-	protected ArrayList<Texture2D> idle_vFrames;
-	protected ArrayList<Texture2D> idle_vFramesFlipped;
-	protected ArrayList<Texture2D> walk_vFrames;
-	protected ArrayList<Texture2D> walk_vFramesFlipped;
-	protected ArrayList<Texture2D> attack_vFrames;
-	protected ArrayList<Texture2D> attack_vFramesFlipped;
-	protected ArrayList<Texture2D> oof_vFrames;
-	protected ArrayList<Texture2D> oof_vFramesFlipped;
-	protected ArrayList<Texture2D> dying_vFrames;
-	protected ArrayList<Texture2D> dying_vFramesFlipped;
-
 	protected int health;
 	protected int attack;
 	protected float detectionRange;
@@ -67,16 +56,6 @@ public class Unit {
 		m_iActualFrame = 1;
 		m_iLastUpdate = System.currentTimeMillis();
 		m_iFps = 15; // default FPS animation rate
-		idle_vFrames = new ArrayList<Texture2D>();
-		walk_vFrames = new ArrayList<Texture2D>();
-		attack_vFrames = new ArrayList<Texture2D>();
-		oof_vFrames = new ArrayList<Texture2D>();
-		dying_vFrames = new ArrayList<Texture2D>();
-		idle_vFramesFlipped = new ArrayList<Texture2D>();
-		walk_vFramesFlipped = new ArrayList<Texture2D>();
-		attack_vFramesFlipped = new ArrayList<Texture2D>();
-		oof_vFramesFlipped = new ArrayList<Texture2D>();
-		dying_vFramesFlipped = new ArrayList<Texture2D>();
 		animation = Animation.Idle;
 		currentAction = CurrentAction.Idle;
 		facingRight = true;
@@ -93,24 +72,12 @@ public class Unit {
 		attacked = true;
 		
 		dyingFrames = 0;
-
-		LoadAllTextures();
 	}
 
 	public Unit(float x, float y) {
 		m_iActualFrame = 1;
 		m_iLastUpdate = System.currentTimeMillis();
 		m_iFps = 15; // default FPS animation rate
-		idle_vFrames = new ArrayList<Texture2D>();
-		walk_vFrames = new ArrayList<Texture2D>();
-		attack_vFrames = new ArrayList<Texture2D>();
-		oof_vFrames = new ArrayList<Texture2D>();
-		dying_vFrames = new ArrayList<Texture2D>();
-		idle_vFramesFlipped = new ArrayList<Texture2D>();
-		walk_vFramesFlipped = new ArrayList<Texture2D>();
-		attack_vFramesFlipped = new ArrayList<Texture2D>();
-		oof_vFramesFlipped = new ArrayList<Texture2D>();
-		dying_vFramesFlipped = new ArrayList<Texture2D>();
 		animation = Animation.Idle;
 		currentAction = CurrentAction.Idle;
 		facingRight = true;
@@ -127,9 +94,6 @@ public class Unit {
 		attacked = true;
 		
 		dyingFrames = 0;
-
-		/** Loading textures */
-		LoadAllTextures();
 
 		m_vSpritePosition = new Vector2D(x, y);
 	}
@@ -138,16 +102,6 @@ public class Unit {
 		m_iActualFrame = 1;
 		m_iLastUpdate = System.currentTimeMillis();
 		m_iFps = 15; // default FPS animation rate
-		idle_vFrames = new ArrayList<Texture2D>();
-		walk_vFrames = new ArrayList<Texture2D>();
-		attack_vFrames = new ArrayList<Texture2D>();
-		oof_vFrames = new ArrayList<Texture2D>();
-		dying_vFrames = new ArrayList<Texture2D>();
-		idle_vFramesFlipped = new ArrayList<Texture2D>();
-		walk_vFramesFlipped = new ArrayList<Texture2D>();
-		attack_vFramesFlipped = new ArrayList<Texture2D>();
-		oof_vFramesFlipped = new ArrayList<Texture2D>();
-		dying_vFramesFlipped = new ArrayList<Texture2D>();
 		animation = Animation.Idle;
 		currentAction = CurrentAction.Idle;
 		facingRight = true;
@@ -165,13 +119,10 @@ public class Unit {
 		
 		dyingFrames = 0;
 
-		/** Loading textures */
-		LoadAllTextures();
-
 		m_vSpritePosition = new Vector2D(x, y);
 	}
-
-	public void LoadAllTextures() {
+	
+	/*public static void LoadDefaultTextures() {
 		// idleAnimation
 		String filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Idle/Golem_01_Idle_0";
 		int numOfFrames = 12;
@@ -188,16 +139,16 @@ public class Unit {
 		filenames = "textures/Golems/PNG/Golem_01/PNG Sequences/Dying/Golem_01_Dying_0";
 		numOfFrames = 15;
 		LoadTextureGroup(filenames, numOfFrames, dying_vFrames, dying_vFramesFlipped);
-	}
+	}*/
 
 	/** Loads sprite textures */
-	public void LoadTextures(String filenames, int numOfFrames) {
+	/*public void LoadTextures(String filenames, int numOfFrames) {
 		if (numOfFrames == 1) {
 			Texture2D tex = new Texture2D();
 			tex.CreateTexture(filenames + ".png");
 			idle_vFrames.add(tex);
 		} else {
-			/** Loading single textures */
+			// Loading single textures 
 			for (int i = 0; i < numOfFrames; i++) {
 				Texture2D tex = new Texture2D();
 
@@ -211,9 +162,9 @@ public class Unit {
 			}
 		}
 
-	}
+	}*/
 
-	public void LoadTextureGroup(String filenames, int numOfFrames, ArrayList<Texture2D> list, ArrayList<Texture2D> flipped) {
+	/*public static void LoadTextureGroup(String filenames, int numOfFrames, ArrayList<Texture2D> list, ArrayList<Texture2D> flipped) {
 
 		if (numOfFrames == 1) {
 			Texture2D tex = new Texture2D();
@@ -224,7 +175,7 @@ public class Unit {
 			tex.CreateTextureFlipped(filenames + ".png");
 			flipped.add(texFlip);
 		} else {
-			/** Loading single textures */
+			//Loading single textures
 			for (int i = 0; i < numOfFrames; i++) {
 				Texture2D tex = new Texture2D();
 
@@ -249,7 +200,7 @@ public class Unit {
 				flipped.add(tex);
 			}
 		}
-	}
+	}*/
 
 	public float getScale() {
 		return this.scale;
@@ -278,8 +229,10 @@ public class Unit {
 		this.currentAction = action;
 	}
 
+	public abstract void setCorrectAnimation();
+	
 	//also handles attacking
-	public void setCorrectAnimation() {
+	/*public void setCorrectAnimation() {
 		switch (this.currentAction) {
 		case Idle:
 			this.setAnimation(Animation.Idle);
@@ -316,7 +269,7 @@ public class Unit {
 		default:
 			break;
 		}
-	}
+	}*/
 	
 	public Unit getTargetUnit() {
 		return this.targetUnit;
@@ -336,8 +289,10 @@ public class Unit {
 		} else facingRight = true;
 	}
 
+	public abstract void Draw();
+	
 	/** Draw Animated Sprite */
-	public void Draw() {
+	/*public void Draw() {
 		Texture2D tex;
 		if(this.facingRight) {
 			switch (this.animation) {
@@ -385,17 +340,19 @@ public class Unit {
 
 		tex.Draw(m_vSpritePosition);
 		Update();
-	}
+	}*/
 
 	/** Draw Animated Sprite */
-	public void Draw(Vector2D pos) {
+	/*public void Draw(Vector2D pos) {
 		Texture2D tex = idle_vFrames.get(m_iActualFrame - 1);
 		tex.Draw(pos);
 		Update();
-	}
+	}*/
 
+	public abstract void Update();
+	
 	/** Update frames */
-	public void Update() {
+	/*public void Update() {
 		if (500.0f / m_iFps < (System.currentTimeMillis() - m_iLastUpdate)) {
 			m_iLastUpdate = System.currentTimeMillis();
 			switch (this.animation) {
@@ -429,10 +386,10 @@ public class Unit {
 			}
 
 		}
-	}
+	}*/
 
 	/** Draw Animated Sprite */
-	public void DrawOne() {
+	/*public void DrawOne() {
 		Texture2D tex = idle_vFrames.get(m_iActualFrame - 1);
 		tex.Draw(m_vSpritePosition);
 		if (1000.0f / m_iFps < (System.currentTimeMillis() - m_iLastUpdate)) {
@@ -441,10 +398,10 @@ public class Unit {
 				m_iActualFrame++;
 			}
 		}
-	}
+	}*/
 
 	/** Draw Animated Sprite */
-	public void DrawOne(Vector2D pos) {
+	/*public void DrawOne(Vector2D pos) {
 		Texture2D tex = idle_vFrames.get(m_iActualFrame - 1);
 		tex.Draw(pos);
 		if (1000.0f / m_iFps < (System.currentTimeMillis() - m_iLastUpdate)) {
@@ -453,10 +410,10 @@ public class Unit {
 				m_iActualFrame++;
 			}
 		}
-	}
+	}*/
 
 	/** Draw Animated Sprite */
-	public void DrawOne(float posX, float posY) {
+	/*public void DrawOne(float posX, float posY) {
 		Texture2D tex = idle_vFrames.get(m_iActualFrame - 1);
 
 		tex.Draw(posX, posY);
@@ -467,33 +424,35 @@ public class Unit {
 				m_iActualFrame++;
 			}
 		}
-	}
+	}*/
 
 	/** Draw One Frane of the Animated Sprite */
-	public void DrawFrame(int frame) {
+	/*public void DrawFrame(int frame) {
 		Texture2D tex = idle_vFrames.get(frame);
 		tex.Draw(m_vSpritePosition);
-	}
+	}*/
 
 	/** Draw One Frane of the Animated Sprite in X, Y position */
-	public void DrawFrame(int frame, float X, float Y) {
+	/*public void DrawFrame(int frame, float X, float Y) {
 		Texture2D tex = idle_vFrames.get(frame);
 		tex.Draw(X, Y);
-	}
+	}*/
 
 	/** Draw One Frane of the Animated Sprite */
-	public void DrawFrame(int frame, Vector2D pos) {
+	/*public void DrawFrame(int frame, Vector2D pos) {
 		Texture2D tex = idle_vFrames.get(frame);
 		tex.Draw(pos);
-	}
+	}*/
 
 	/** Reset Animation */
 	public void Reset() {
 		m_iActualFrame = 1;
 	}
 
+	public abstract Texture2D GetCurrentFrameTexture();
+	
 	/** Get current frame of the Animated Sprite */
-	public Texture2D GetCurrentFrameTexture() {
+	/*public Texture2D GetCurrentFrameTexture() {
 		if(this.facingRight) {
 			switch (this.animation) {
 			case Idle:
@@ -526,17 +485,17 @@ public class Unit {
 			}	
 		}
 
-	}
+	}*/
 
 	/** Get one frame of the Animated Sprite */
-	public Texture2D GetTexture(int frame) {
+	/*public Texture2D GetTexture(int frame) {
 		return idle_vFrames.get(frame);
-	}
+	}*/
 
 	/** Get the frame number of the Sprite */
-	public int GetNumberOfFrames() {
+	/*public int GetNumberOfFrames() {
 		return idle_vFrames.size();
-	}
+	}*/
 
 	/** Set Animation Speed */
 	public void SetAnimationSpeed(int fps) {
@@ -607,10 +566,10 @@ public class Unit {
 		this.detectionRange = detectionRange;
 	}
 
-	public void cleanUp() {
+	/*public void cleanUp() {
 		for (int i = 0; i < idle_vFrames.size(); i++) {
 			Texture2D tex = idle_vFrames.get(i);
 			tex.cleanup();
 		}
-	}
+	}*/
 }
