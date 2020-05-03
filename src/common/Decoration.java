@@ -10,6 +10,7 @@ public class Decoration {
 	private int y;
 	private int z;
 	private String filename;
+	private Texture2D texture;
 	
 	public Decoration() {
 		
@@ -52,6 +53,14 @@ public class Decoration {
 
 	public void setZ(int z) {
 		this.z = z;
+	}
+
+	public Texture2D getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture2D texture) {
+		this.texture = texture;
 	}
 
 	
