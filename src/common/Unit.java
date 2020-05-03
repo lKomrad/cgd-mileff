@@ -9,10 +9,7 @@ import engine.Timer;
 import engine.Vector2D;
 
 public class Unit {
-	private Vector2f rallyPoint;
-	private boolean isEnemy;
-
-	// Frames vector
+	
 	protected ArrayList<Texture2D> idle_vFrames;
 	protected ArrayList<Texture2D> idle_vFramesFlipped;
 	protected ArrayList<Texture2D> walk_vFrames;
@@ -495,27 +492,38 @@ public class Unit {
 		m_iActualFrame = 1;
 	}
 
-	public Vector2f getRallyPoint() {
-		return rallyPoint;
-	}
-
-	public void setRallyPoint(Vector2f rallyPoint) {
-		this.rallyPoint = rallyPoint;
-	}
-
-	public boolean isEnemy() {
-		return isEnemy;
-	}
-
 	/** Get current frame of the Animated Sprite */
 	public Texture2D GetCurrentFrameTexture() {
-		switch (this.animation) {
-		case Idle:
-			return idle_vFrames.get(m_iActualFrame - 1);
-		case Walk:
-			return walk_vFrames.get(m_iActualFrame - 1);
-		default:
-			return idle_vFrames.get(m_iActualFrame - 1);
+		if(this.facingRight) {
+			switch (this.animation) {
+			case Idle:
+				return idle_vFrames.get(m_iActualFrame - 1);
+			case Walk:
+				return walk_vFrames.get(m_iActualFrame - 1);
+			case Attack:
+				return attack_vFrames.get(m_iActualFrame - 1);
+			case Oof:
+				return oof_vFrames.get(m_iActualFrame - 1);
+			case Dying:
+				return dying_vFrames.get(m_iActualFrame - 1);
+			default:
+				return idle_vFrames.get(m_iActualFrame - 1);
+			}			
+		}else {
+			switch (this.animation) {
+			case Idle:
+				return idle_vFramesFlipped.get(m_iActualFrame - 1);
+			case Walk:
+				return walk_vFramesFlipped.get(m_iActualFrame - 1);
+			case Attack:
+				return attack_vFramesFlipped.get(m_iActualFrame - 1);
+			case Oof:
+				return oof_vFramesFlipped.get(m_iActualFrame - 1);
+			case Dying:
+				return dying_vFramesFlipped.get(m_iActualFrame - 1);
+			default:
+				return idle_vFramesFlipped.get(m_iActualFrame - 1);
+			}	
 		}
 
 	}

@@ -26,11 +26,13 @@ import common.Map;
 import common.Ogre;
 import common.Orc;
 import common.PlaceOfTower;
+import common.Projectile;
 //import engine.CSprite;
 import engine.IGameLogic;
 import engine.Renderer;
 import engine.Texture2D;
 import engine.Timer;
+import engine.Vector2D;
 import engine.MapHandler;
 //import engine.Vector2D;
 import engine.Window;
@@ -51,6 +53,7 @@ public class DummyGame implements IGameLogic {
 	public static List<Golem> friendlyUnits = new ArrayList<Golem>();
 	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
 	public static List<Unit> dyingUnits = new ArrayList<Unit>();
+	public static List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
@@ -81,17 +84,25 @@ public class DummyGame implements IGameLogic {
 		friendlyUnits.add(golem);
 		
 		enemyUnits.add(new Orc(800,50,0.2f));
-		//enemyUnits.add(new Ogre(800,250,0.2f));
+		enemyUnits.get(0).addGoalLocation(new Vector2D(0,0));
+		enemyUnits.get(0).addGoalLocation(new Vector2D(300,500));
+				
 		enemyUnits.add(new Ogre(0,0,0.2f));
+		enemyUnits.get(1).addGoalLocation(new Vector2D(600,0));
+		enemyUnits.get(1).addGoalLocation(new Vector2D(300,500));
+		
 		enemyUnits.add(new Goblin(800,400,0.2f));
+		enemyUnits.get(2).addGoalLocation(new Vector2D(0,600));
+		enemyUnits.get(2).addGoalLocation(new Vector2D(300,500));
+		
+		
 		timer.init();
 	}
 
 	@Override
 	public void input(Window window) {
 		if (window.isKeyPressed('A')) {
-			friendlyUnits.get(0).Reset();
-			friendlyUnits.get(0).Attack();
+			projectiles.add(new Projectile(1000,0,enemyUnits.get(0)));
 
 		}
 		//ez így valamiért lefut többször (valszeg amiatt, hogy a lent töltött idõt érzékeli)
@@ -127,18 +138,19 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void update(float interval) {
-		checkUnitActions(friendlyUnits, enemyUnits, dyingUnits);
+		checkUnitActions(friendlyUnits, enemyUnits, dyingUnits, projectiles);
 		
 		collectGarbage();
 		//System.gc();
 	}
 	
-	public void checkUnitActions(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits) {
+	public void checkUnitActions(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits, List<Projectile> projectiles) {
 		//sorrend fontos
 		checkEnemyWalking(enemyUnits);
 		checkForFights(friendlyUnits, enemyUnits);
 		walkToGoal(enemyUnits);
 		setCorrectAnimations(friendlyUnits, enemyUnits, dyingUnits);
+		handleProjectiles(projectiles);
 	}
 	
 	public void checkForFights(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
@@ -151,8 +163,6 @@ public class DummyGame implements IGameLogic {
 					golem.setTargetUnit(enemy);
 
 					//System.out.println(golem.getTargetUnit());
-
-
 				}
 			}
 		}
@@ -162,7 +172,7 @@ public class DummyGame implements IGameLogic {
 		for (Enemy enemy : enemyUnits) {
 			if(enemy.NotReachedGoal()) {
 				enemy.setCurrentAction(CurrentAction.Walking);
-			}
+			} else enemy.setCurrentAction(CurrentAction.Idle);
 		}
 	}
 	
@@ -185,6 +195,19 @@ public class DummyGame implements IGameLogic {
 		for (Unit unit : dyingUnits) {
 			unit.setCorrectAnimation();
 		}
+	}
+	
+	public void handleProjectiles(List<Projectile> projectiles) {
+		for (Projectile projectile : projectiles) {
+			projectile.FlyToTarget();
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			if (projectiles.get(i).getToBeDeleted()) {
+				projectiles.remove(i);
+				i--;
+			}
+		}
+		
 	}
 	
 	public void checkDyingUnits(List<Unit> dyingUnits) {
@@ -219,11 +242,8 @@ public class DummyGame implements IGameLogic {
 				 if(window.getCursorYPosition() > pot.getY() && window.getCursorYPosition() < pot.getY() + 40) {
 					 pot.placeTower(filename);
 				 }
-			 }
-			
-			 
-			 
-			}
+		 	  }			 
+		 }
 	}
 	
 }

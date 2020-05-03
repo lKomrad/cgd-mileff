@@ -4,6 +4,13 @@ import engine.Vector2D;
 import common.Unit;
 
 public class GameLogic {
+	
+	
+	
+	
+	
+	
+	
 	public static float calculateDistance(Unit unit1, Unit unit2) {
 		Vector2D vec1 = unit1.GetPosition();
 		Vector2D vec2 = unit2.GetPosition();

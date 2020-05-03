@@ -23,6 +23,7 @@ import common.Enemy;
 import common.Golem;
 import common.Map;
 import common.PlaceOfTower;
+import common.Projectile;
 import common.Tower;
 import common.Unit;
 
@@ -175,12 +176,12 @@ public class Renderer {
 			
 		
 			// Render each unit
-		renderAllUnits(DummyGame.friendlyUnits, DummyGame.enemyUnits, DummyGame.dyingUnits);
+		renderAllUnits(DummyGame.friendlyUnits, DummyGame.enemyUnits, DummyGame.dyingUnits, DummyGame.projectiles);
 	
 		shaderProgram.unbind();
 	}
 	
-	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits){
+	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits, List<Projectile> projectiles){
 		for (Enemy enemy : enemyUnits) {
 			// Set world matrix for this item
 			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(enemy.GetPosition().x,enemy.GetPosition().y,0), enemy.GetCurrentFrameTexture().getRotation(),
@@ -210,6 +211,17 @@ public class Renderer {
 
 			// Render the sprite
 			friendly.Draw();
+		}
+		
+		for(Projectile pro : projectiles) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(pro.GetPosition().x,pro.GetPosition().y,0), pro.GetCurrentFrameTexture().getRotation(),
+					pro.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			pro.Draw();
 		}
 	}
 	
