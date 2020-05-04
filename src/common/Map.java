@@ -8,7 +8,7 @@ import engine.Texture2D;
 
 public class Map {
 	
-	private static MapHandler txtReader = new MapHandler("levels/kittylevel.txt", "levels/kittylevel2.txt", "levels/kittylevel3.txt", 12, 12);
+	private static MapHandler txtReader = new MapHandler("ezegyproba1.txt", "ezegyproba2.txt", "ezegyproba3.txt", 10, 10);
 	private static int numberofRows = MapHandler.getRows();
 	private static int numberofColumns = MapHandler.getColumns();
 	//private static MapComponent[][] map = txtReader.getMap();

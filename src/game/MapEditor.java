@@ -1,6 +1,7 @@
 package game;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
@@ -34,6 +35,7 @@ public class MapEditor implements IGameLogic{
 	public static Decoration tempdec = new Decoration();
 	public static boolean potordec = false;
 	private static boolean decbool = false;
+	private static boolean closoljmarbepls = false;
 
 	
 
@@ -59,8 +61,16 @@ public class MapEditor implements IGameLogic{
 
 	@Override
 	public void input(Window window) {
-		 
-		if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
+		if (window.isKeyPressed(GLFW_KEY_ENTER)) {
+			if(closoljmarbepls == false) {
+				MapEditorHandler.export("ezegyproba");
+				MapEditorHandler.temporarymethod();
+				closoljmarbepls = true;
+			}
+			
+			
+		}
+		else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
 			for (MapComponent mc : MapEditorHandler.getMcs()) {
 				if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 55) {
 					 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 55) {
@@ -80,7 +90,12 @@ public class MapEditor implements IGameLogic{
 				if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 99) {
 					 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 99) {
 						 mc.setFilename(mapcomp.getFilename());
+						 mc.setId(mapcomp.getId());
 						 changeTexture(mc);
+						 
+						MapEditorHandler.addToMap((int)(window.getCursorYPosition()/99),
+							 (int)(window.getCursorXPosition()/99), mc.getId());
+						 
 					 }
 				 }
 				
