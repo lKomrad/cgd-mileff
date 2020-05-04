@@ -1,12 +1,14 @@
 package game;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Decoration;
 import common.Enemy;
 import common.Goblin;
 import common.Golem;
@@ -29,8 +31,15 @@ public class MapEditor implements IGameLogic{
 	
 	private final MapEditorRenderer renderer;
 	private static MapComponent mapcomp;
+	public static Decoration tempdec = new Decoration();
+	public static boolean potordec = false;
+	private static boolean decbool = false;
 
 	
+
+	public static Decoration getTempdec() {
+		return tempdec;
+	}
 
 	Timer timer = new Timer();
 	float elapsedSeconds = 0;
@@ -44,39 +53,112 @@ public class MapEditor implements IGameLogic{
 		renderer.init(window);
 		MapEditorHandler.drawMap();
 		MapEditorHandler.read();
+		//MapEditorHandler.drawDecorations();
 		
 	}
 
 	@Override
 	public void input(Window window) {
-		 if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
-				for (MapComponent mc : MapEditorHandler.getMcs()) {
-					if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 55) {
-						 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 55) {
-							 mc.getTexture().setScale(0.45f);
-							 mapcomp = mc;
+		 
+		if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
+			for (MapComponent mc : MapEditorHandler.getMcs()) {
+				if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 55) {
+					 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 55) {
+						 mc.getTexture().setScale(0.45f);
+						 mapcomp = mc;
+					 }
+					 else{
+							mc.getTexture().setScale(0.5f);
+						}
+				 }
+				else{
+					mc.getTexture().setScale(0.5f);
+				}
+				
+			}
+			for (MapComponent mc : MapEditorHandler.getMapComponents()) {
+				if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 99) {
+					 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 99) {
+						 mc.setFilename(mapcomp.getFilename());
+						 changeTexture(mc);
+					 }
+				 }
+				
+			}
+		}
+		 if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
+				for (Decoration dec : MapEditorHandler.getDecs()) {
+					if(window.getCursorXPosition() > dec.getX() && window.getCursorXPosition() < dec.getX() + 50) {
+						 if(window.getCursorYPosition() > dec.getY() && window.getCursorYPosition() < dec.getY() + 50) {
+							 dec.getTexture().setScale(1.2f);
+							 tempdec.loadTextures(dec);
+							 tempdec.getTexture().setPosition(500, 500, 0);
+							 potordec = false;
+							 decbool = true;
+							 
 						 }
 						 else{
-								mc.getTexture().setScale(0.5f);
+							 dec.getTexture().setScale(1);
 							}
 					 }
 					else{
-						mc.getTexture().setScale(0.5f);
+						dec.getTexture().setScale(1);
 					}
 					
 				}
-				for (MapComponent mc : MapEditorHandler.getMapComponents()) {
+				for (Decoration dec : MapEditorHandler.getPots()) {
+					if(window.getCursorXPosition() > dec.getX() && window.getCursorXPosition() < dec.getX() + 50) {
+						 if(window.getCursorYPosition() > dec.getY() && window.getCursorYPosition() < dec.getY() + 50) {
+							 dec.getTexture().setScale(1.2f);
+							 tempdec.loadTextures(dec);
+							 tempdec.getTexture().setPosition(500, 500, 0);
+							 potordec = true;
+							 decbool = true;
+							 
+						 }
+						 else{
+							 dec.getTexture().setScale(1);
+							}
+					 }
+					else{
+						dec.getTexture().setScale(1);
+					}
+					
+				}
+				/*for (MapComponent mc : MapEditorHandler.getMapComponents()) {
 					if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 99) {
 						 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 99) {
-							 mc.setFilename(mapcomp.getFilename());
+							 mc.setFilename(tempdec.getFilename());
 							 changeTexture(mc);
 						 }
 					 }
 					
-				}
+				}*/
 				
 		}
-				
+		 if(tempdec != null && decbool == true) {
+				tempdec.getTexture().setPosition((float)window.getCursorXPosition(),
+						(float)window.getCursorYPosition(), 0);
+				if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_3)) {
+					if(window.getCursorXPosition()< 900 && window.getCursorYPosition()< 900)
+					{tempdec.setX((int)window.getCursorXPosition());
+					tempdec.setY((int)window.getCursorYPosition());
+					if(potordec == false) {
+						MapEditorHandler.addDecorationToArrayList(tempdec);
+					}
+					else {
+						MapEditorHandler.addPlaceofTowerToArrayList(tempdec);
+					}
+					
+					decbool = false;
+					}
+				}
+			}
+		 else {
+			 
+			
+		 }
+		
 
 	}
 	

@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 import common.Decoration;
 import common.MapComponent;
+import common.Tower;
 
 public class MapEditorHandler {
 	
 	//Map, amit szerkesztünk, majd exportálunk
 	private int[][] map;
 	private static ArrayList<MapComponent> mapComponents;
-	private ArrayList<Decoration> decorations;
-	private ArrayList<Decoration> placeOfTowers;
+	private static ArrayList<Decoration> decorations = new ArrayList<Decoration>();
+	private static ArrayList<Decoration> placeOfTowers = new ArrayList<Decoration>();
 	
 	//Map komponensek, amiktõl variálhatjuk a mapot
 	private static ArrayList<MapComponent> mcs;
@@ -46,13 +47,13 @@ public class MapEditorHandler {
 	public void setMapComponents(ArrayList<MapComponent> mapComponents) {
 		this.mapComponents = mapComponents;
 	}
-	public ArrayList<Decoration> getDecorations() {
+	public static ArrayList<Decoration> getDecorations() {
 		return decorations;
 	}
 	public void setDecorations(ArrayList<Decoration> decorations) {
 		this.decorations = decorations;
 	}
-	public ArrayList<Decoration> getPlaceOfTowers() {
+	public static ArrayList<Decoration> getPlaceOfTowers() {
 		return placeOfTowers;
 	}
 	public void setPlaceOfTowers(ArrayList<Decoration> placeOfTowers) {
@@ -111,6 +112,23 @@ public class MapEditorHandler {
 		}
 		mapComponents = tmcs;
 	}
+	
+	/*public static void drawDecorations() {
+		try{
+			for (Decoration dec : decorations) {
+				Texture2D mapComp = new Texture2D();
+				mapComp.CreateTexture(dec.getFilename());
+				mapComp.setPosition(dec.getX(), dec.getY(), dec.getZ());
+				dec.setTexture(mapComp);
+				
+			}
+			}
+		catch(Exception ex) {
+			
+		}
+			
+		
+	}*/
 	
 	public static void read() {
 		ArrayList<MapComponent> tmcs = new ArrayList<MapComponent>();
@@ -199,6 +217,52 @@ public class MapEditorHandler {
 		mapComp.setScale(scale);
 		 dec.setTexture(mapComp);
 	}
+	
+	public static Decoration newDecoration(Decoration decoration) {
+		Decoration dec = new Decoration();
+		dec.setX(decoration.getX());
+		dec.setY(decoration.getY());
+		dec.setZ(0);
+		dec.setFilename(decoration.getFilename());
+		dec.loadTexture();
+		return dec;
+	}
+	
+	public static void addDecorationToArrayList(Decoration decoration) {
+		Decoration dec = new Decoration();
+		dec.setFilename(decoration.getFilename());
+		dec.setX(decoration.getX());
+		dec.setY(decoration.getY());
+		dec.setZ(0);
+		
+		Texture2D mapComp = new Texture2D();
+		mapComp.CreateTexture(dec.getFilename());
+		mapComp.setPosition(dec.getX(), dec.getY(), dec.getZ());
+		dec.setTexture(mapComp);
+		decorations.add(dec);
+		
+		
+		
+	}
+	
+	public static void addPlaceofTowerToArrayList(Decoration decoration) {
+		Decoration dec = new Decoration();
+		dec.setFilename(decoration.getFilename());
+		dec.setX(decoration.getX());
+		dec.setY(decoration.getY());
+		dec.setZ(0);
+		
+		Texture2D mapComp = new Texture2D();
+		mapComp.CreateTexture(dec.getFilename());
+		mapComp.setPosition(dec.getX(), dec.getY(), dec.getZ());
+		dec.setTexture(mapComp);
+		placeOfTowers.add(dec);
+		
+		
+		
+	}
+	
+	
 	
 	public void export() {
 		exportMapComps();

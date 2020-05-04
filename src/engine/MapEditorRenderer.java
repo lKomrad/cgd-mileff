@@ -19,6 +19,7 @@ import org.joml.Vector3f;
 
 import engine.Window;
 import game.DummyGame;
+import game.MapEditor;
 import common.Decoration;
 import common.Enemy;
 import common.Golem;
@@ -123,6 +124,38 @@ public class MapEditorRenderer {
 			// Render the decorations
 			texture.render();
 		}
+		
+		try {for (Decoration decs : MapEditorHandler.getDecorations()) {
+			
+			Texture2D texture = decs.getTexture(); 
+			// Set world matrix for this item
+			Matrix4f worldMatrix2 = transformation.getWorldMatrix(texture.getPosition(), texture.getRotation(),
+					texture.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+			// Render the decorations
+			texture.render();
+		}
+		}
+		catch(Exception ex) {
+		}
+		
+		try {for (Decoration pots : MapEditorHandler.getPlaceOfTowers()) {
+			
+			Texture2D texture = pots.getTexture(); 
+			// Set world matrix for this item
+			Matrix4f worldMatrix2 = transformation.getWorldMatrix(texture.getPosition(), texture.getRotation(),
+					texture.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+			// Render the decorations
+			texture.render();
+		}
+		}
+		catch(Exception ex) {
+		}
 				
 			
 		for (Decoration pots : MapEditorHandler.getPots()) {
@@ -138,7 +171,21 @@ public class MapEditorRenderer {
 			texture.render();
 		}
 		
+		try {
+			Decoration dec = MapEditor.tempdec;
+			// Set world matrix for this item
+			Matrix4f worldMatrix2 = transformation.getWorldMatrix(dec.getTexture().getPosition(), dec.getTexture().getRotation(),
+					dec.getTexture().getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+			// Render the decorations
+			dec.getTexture().render();
+		}
+		catch(Exception ex) {
 			
+		}
+		
 		
 	
 		shaderProgram.unbind();
