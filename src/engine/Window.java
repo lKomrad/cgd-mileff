@@ -190,8 +190,8 @@ public class Window {
 
         GL.createCapabilities();
 
-        // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        // Set the clear color, a fiúk meggyõztek, h legyen bordó
+        glClearColor(0.3f, 0.07f, 0.23f, 0.0f);
         //glEnable(GL_DEPTH_TEST);
         
         glEnable(GL_BLEND);
