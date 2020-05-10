@@ -202,14 +202,14 @@ public class Renderer {
 	
 	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits, List<Projectile> projectiles){
 		List<Unit> allUnits = new ArrayList<Unit>();
-		for (Enemy enemy : enemyUnits) {
-			allUnits.add(enemy);
-		}
 		for (Unit unit : dyingUnits) {
 			allUnits.add(unit);			
 		}
 		for (Golem friendly : friendlyUnits) {
 			allUnits.add(friendly);
+		}
+		for (Enemy enemy : enemyUnits) {
+			allUnits.add(enemy);
 		}
 		
 		for(Projectile pro : projectiles) {

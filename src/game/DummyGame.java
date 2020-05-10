@@ -52,15 +52,19 @@ public class DummyGame implements IGameLogic {
 
 	public static List<Golem> friendlyUnits = new ArrayList<Golem>();
 	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
+	public static List<Enemy> enemyQueue = new ArrayList<Enemy>();
 	public static List<Unit> dyingUnits = new ArrayList<Unit>();
-	public static List<Projectile> projectiles = new ArrayList<Projectile>();
+	public static List<Projectile> projectiles = new ArrayList<Projectile>();	
 
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
 	
 
-	Timer timer = new Timer();
-	float elapsedSeconds = 0;
+	Timer collectorTimer = new Timer();
+	float collectorElapsedSeconds = 0;
+	
+	Timer gameTimer = new Timer();
+	float elapsedSeconds = 7;
 
 	public DummyGame() {
 		renderer = new Renderer();
@@ -80,28 +84,15 @@ public class DummyGame implements IGameLogic {
 		Ogre.LoadAllTextures();
 		Orc.LoadAllTextures();
 		Projectile.LoadAllTextures();
-		
-		
 
-		Golem golem = new Golem(300,500);
-		golem.setScale(0.33f);
+		Golem golem = new Golem(300,500,0.33f);
 		
 		friendlyUnits.add(golem);
 		
-		enemyUnits.add(new Orc(800,50,0.2f));
-		enemyUnits.get(0).addGoalLocation(new Vector2D(0,0));
-		enemyUnits.get(0).addGoalLocation(new Vector2D(300,500));
-				
-		enemyUnits.add(new Ogre(0,0,0.2f));
-		enemyUnits.get(1).addGoalLocation(new Vector2D(600,0));
-		enemyUnits.get(1).addGoalLocation(new Vector2D(300,500));
+		initEnemyQueue();
 		
-		enemyUnits.add(new Goblin(800,400,0.2f));
-		enemyUnits.get(2).addGoalLocation(new Vector2D(0,600));
-		enemyUnits.get(2).addGoalLocation(new Vector2D(300,500));
-		
-		
-		timer.init();
+		collectorTimer.init();
+		gameTimer.init();
 	}
 
 	@Override
@@ -143,6 +134,8 @@ public class DummyGame implements IGameLogic {
 
 	@Override
 	public void update(float interval) {
+		spawnEnemies();
+		
 		checkUnitActions(friendlyUnits, enemyUnits, dyingUnits, projectiles);
 		
 		collectGarbage();
@@ -213,7 +206,40 @@ public class DummyGame implements IGameLogic {
 				i--;
 			}
 		}
+	}
+	
+	public void spawnEnemies() {
+		if (enemyQueue.size() != 0) {
+			elapsedSeconds += gameTimer.getElapsedTime();
+			System.out.println(elapsedSeconds);
+			if(elapsedSeconds > 10) {
+				elapsedSeconds = 0;
+				enemyUnits.add(enemyQueue.get(0));
+				enemyQueue.remove(0);
+			}			
+		}
+	}
+	
+	public void initEnemyQueue() {
+		Goblin goblin;
+		Ogre ogre;
+		Orc orc;
 		
+		goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+		goblin.setGoalLocations(Map.getCheckpoints());
+		enemyQueue.add(goblin);
+		
+		ogre = new Ogre(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+		ogre.setGoalLocations(Map.getCheckpoints());
+		enemyQueue.add(ogre);
+		
+		goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+		goblin.setGoalLocations(Map.getCheckpoints());
+		enemyQueue.add(goblin);
+		
+		orc = new Orc(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+		orc.setGoalLocations(Map.getCheckpoints());
+		enemyQueue.add(orc);
 	}
 	
 	public void checkDyingUnits(List<Unit> dyingUnits) {
@@ -231,9 +257,9 @@ public class DummyGame implements IGameLogic {
 	}
 	
 	public void collectGarbage() {
-		elapsedSeconds += timer.getElapsedTime();
-		if(elapsedSeconds > 1) {
-			elapsedSeconds = 0;
+		collectorElapsedSeconds += collectorTimer.getElapsedTime();
+		if(collectorElapsedSeconds > 1) {
+			collectorElapsedSeconds = 0;
 			System.gc();
 		}
 	}

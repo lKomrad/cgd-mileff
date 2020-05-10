@@ -45,7 +45,13 @@ public abstract class Enemy extends Unit {
 		}
 
 		public void setGoalLocations(List<Vector2D> goalLocations) {
-			this.goalLocations = goalLocations;
+			List<Vector2D> newGoals = new ArrayList<Vector2D>();
+			for (Vector2D vector2d : goalLocations) {
+				Vector2D newVector = new Vector2D(vector2d.x, vector2d.y);
+				newGoals.add(newVector);
+			}
+			
+			this.goalLocations = newGoals;
 		}
 		
 		public Vector2D getGoalLocation(int index) {
