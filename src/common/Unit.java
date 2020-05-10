@@ -16,7 +16,7 @@ public abstract class Unit {
 	protected float speed;
 	protected boolean facingRight;
 	
-	protected Timer attackTimer;
+	public Timer attackTimer;
 	protected float attackSpeed;
 	protected int framesPassed;
 	protected float elapsedTime;
@@ -564,6 +564,14 @@ public abstract class Unit {
 
 	public void setDefectionRange(float detectionRange) {
 		this.detectionRange = detectionRange;
+	}
+	
+	public float getElapsedTime() {
+		return this.elapsedTime;
+	}
+	
+	public void setElapsedTime(float time) {
+		this.elapsedTime = time;
 	}
 
 	/*public void cleanUp() {

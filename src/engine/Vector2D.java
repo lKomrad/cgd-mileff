@@ -24,6 +24,11 @@ public class Vector2D {
 		this.x = vec.x;
 		this.y = vec.y;
 	}
+	
+	public void set(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	/** Length of the vector */
 	public float length() {

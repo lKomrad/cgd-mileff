@@ -19,6 +19,7 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniform1i;
+import static org.lwjgl.opengl.GL20.glUniform4f;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
@@ -68,6 +69,10 @@ public class ShaderProgram {
 		FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 		value.get(fb);
 		glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
+	}
+	
+	public void setUniform4f(String uniformName, float v0, float v1, float v2, float v3) {
+		glUniform4f(uniforms.get(uniformName), v0, v1, v2, v3);
 	}
 
 	public void setUniform(String uniformName, int value) {

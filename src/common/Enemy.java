@@ -3,6 +3,7 @@ package common;
 import java.util.ArrayList;
 import java.util.List;
 
+import engine.Timer;
 import engine.Vector2D;
 import game.DummyGame;
 import game.GameLogic;
@@ -105,6 +106,7 @@ public abstract class Enemy extends Unit {
 				DummyGame.friendlyUnits.remove(targetUnit);
 				DummyGame.dyingUnits.add(targetUnit);
 				targetUnit.setCurrentAction(CurrentAction.Dying);
+				targetUnit.setElapsedTime(0);
 				targetUnit = null;
 			}
 		}

@@ -16,6 +16,8 @@ import java.util.List;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import engine.Utils;
+import engine.ShaderProgram;
 
 import engine.Window;
 import game.DummyGame;
@@ -39,6 +41,10 @@ public class Renderer {
 	private final Transformation transformation;
 
 	private ShaderProgram shaderProgram;
+	
+	public static ShaderProgram lineShader;
+	
+	public static Matrix4f projectionMatrix;
 
 	public Renderer() {
 		transformation = new Transformation();
@@ -56,6 +62,19 @@ public class Renderer {
 		shaderProgram.createUniform("projectionMatrix");
 		shaderProgram.createUniform("worldMatrix");
 		shaderProgram.createUniform("texture_sampler");
+		
+		lineShader = new ShaderProgram();
+		lineShader.createVertexShader(Utils.loadFile("shaders/line.vs"));
+		lineShader.createFragmentShader(Utils.loadFile("shaders/line.fs"));
+		lineShader.link();
+
+		// Create uniforms for world and projection matrices and texture
+		lineShader.createUniform("projectionMatrix");
+		lineShader.createUniform("modelMatrix");
+		lineShader.createUniform("linecolor");
+		
+		// Update orthogonal projection Matrix
+		projectionMatrix = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
 	}
 
 	public void clear() {
@@ -182,17 +201,22 @@ public class Renderer {
 	}
 	
 	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits, List<Projectile> projectiles){
+		List<Unit> allUnits = new ArrayList<Unit>();
 		for (Enemy enemy : enemyUnits) {
-			// Set world matrix for this item
-			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(enemy.GetPosition().x,enemy.GetPosition().y,0), enemy.GetCurrentFrameTexture().getRotation(),
-					enemy.getScale());
-
-			shaderProgram.setUniform("worldMatrix", worldMatrix);
-
-			// Render the sprite
-			enemy.Draw();
+			allUnits.add(enemy);
 		}
 		for (Unit unit : dyingUnits) {
+			allUnits.add(unit);			
+		}
+		for (Golem friendly : friendlyUnits) {
+			allUnits.add(friendly);
+		}
+		
+		for(Projectile pro : projectiles) {
+			allUnits.add(pro);
+		}
+		
+		for(Unit unit : allUnits) {
 			// Set world matrix for this item
 			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(unit.GetPosition().x,unit.GetPosition().y,0), unit.GetCurrentFrameTexture().getRotation(),
 					unit.getScale());
@@ -200,28 +224,7 @@ public class Renderer {
 			shaderProgram.setUniform("worldMatrix", worldMatrix);
 
 			// Render the sprite
-			unit.Draw();			
-		}
-		for (Golem friendly : friendlyUnits) {
-			// Set world matrix for this item
-			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(friendly.GetPosition().x,friendly.GetPosition().y,0), friendly.GetCurrentFrameTexture().getRotation(),
-					friendly.getScale());
-
-			shaderProgram.setUniform("worldMatrix", worldMatrix);
-
-			// Render the sprite
-			friendly.Draw();
-		}
-		
-		for(Projectile pro : projectiles) {
-			// Set world matrix for this item
-			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(pro.GetPosition().x,pro.GetPosition().y,0), pro.GetCurrentFrameTexture().getRotation(),
-					pro.getScale());
-
-			shaderProgram.setUniform("worldMatrix", worldMatrix);
-
-			// Render the sprite
-			pro.Draw();
+			unit.Draw();
 		}
 	}
 	

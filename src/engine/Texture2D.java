@@ -242,6 +242,15 @@ public class Texture2D {
 		mesh.render();
 	}
 
+
+	public float GetWidth() {
+		return mWidth;
+	}
+
+	public float GetHeight() {
+		return mHeight;
+	}
+	
 	public Mesh getMesh() {
 		return mesh;
 	}

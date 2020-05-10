@@ -75,7 +75,7 @@ public class DummyGame implements IGameLogic {
 		//valamiért nem fut le a dekoráció, ha a loadTowerPlaces() itt van
 		Map.loadTowerPlaces();
 		//initCurrentMousePosition(200);
-		Golem.LoadAllTextures();
+		Golem.LoadAllSprites();
 		Goblin.LoadAllTextures();
 		Ogre.LoadAllTextures();
 		Orc.LoadAllTextures();
@@ -156,6 +156,7 @@ public class DummyGame implements IGameLogic {
 		walkToGoal(enemyUnits);
 		setCorrectAnimations(friendlyUnits, enemyUnits, dyingUnits);
 		handleProjectiles(projectiles);
+		checkDyingUnits(dyingUnits);
 	}
 	
 	public void checkForFights(List<Golem> friendlyUnits, List<Enemy> enemyUnits) {
@@ -216,7 +217,17 @@ public class DummyGame implements IGameLogic {
 	}
 	
 	public void checkDyingUnits(List<Unit> dyingUnits) {
-		
+		for (Unit unit : dyingUnits) {
+			unit.setElapsedTime(unit.attackTimer.getElapsedTime() + unit.getElapsedTime());
+			System.out.println(unit.getElapsedTime());
+		}
+		for(int i = 0; i < dyingUnits.size(); i++) {
+			if(dyingUnits.get(i).getElapsedTime() > 10) {
+				System.out.println("bruh");
+				dyingUnits.set(i, null);
+				dyingUnits.remove(i);
+			}
+		}
 	}
 	
 	public void collectGarbage() {
