@@ -54,6 +54,7 @@ public class DummyGame implements IGameLogic {
 	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
 	public static List<Unit> dyingUnits = new ArrayList<Unit>();
 	public static List<Projectile> projectiles = new ArrayList<Projectile>();
+	public static PlaceOfTower tempPot = new PlaceOfTower();
 
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
@@ -118,6 +119,8 @@ public class DummyGame implements IGameLogic {
 
 		}else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
 			addTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_003.png");
+			Golem golem = tempPot.getTower().putGolemOnMap();
+			friendlyUnits.add(golem);
 
 		}
 		else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_3)) {
@@ -257,6 +260,7 @@ public class DummyGame implements IGameLogic {
 			 if(window.getCursorXPosition() > pot.getX() && window.getCursorXPosition() < pot.getX() + 100) {
 				 if(window.getCursorYPosition() > pot.getY() && window.getCursorYPosition() < pot.getY() + 40) {
 					 pot.placeTower(filename);
+					 tempPot = pot;
 				 }
 		 	  }			 
 		 }
