@@ -51,6 +51,7 @@ public class DummyGame implements IGameLogic {
 	public static List<Golem> friendlyUnits = new ArrayList<Golem>();
 	public static List<Enemy> enemyUnits = new ArrayList<Enemy>();
 	public static List<Unit> dyingUnits = new ArrayList<Unit>();
+	public static PlaceOfTower tempPot = new PlaceOfTower();
 
 	//private Map map;
 	//private Texture2D[][] mapTextures = new Texture2D[Map.getNumberofRows()][Map.getNumberofColumns()];
@@ -67,10 +68,11 @@ public class DummyGame implements IGameLogic {
 	public void init(Window window) throws Exception {
 		renderer.init(window);
 		Map.loadMap();
+		Map.loadTowerPlaces();
 		Map.loadDecorations();
 
 		//valamiért nem fut le a dekoráció, ha a loadTowerPlaces() itt van
-		Map.loadTowerPlaces();
+		//Map.loadTowerPlaces();
 		//initCurrentMousePosition(200);
 		
 		
@@ -102,6 +104,11 @@ public class DummyGame implements IGameLogic {
 
 		}else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
 			addTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_003.png");
+			for (int i = 0; i < 3; i++) {
+				Golem golem = tempPot.getTower().putGolemOnMap();
+				friendlyUnits.add(golem);
+			}
+			
 
 		}
 		else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_3)) {
@@ -218,6 +225,7 @@ public class DummyGame implements IGameLogic {
 			 if(window.getCursorXPosition() > pot.getX() && window.getCursorXPosition() < pot.getX() + 100) {
 				 if(window.getCursorYPosition() > pot.getY() && window.getCursorYPosition() < pot.getY() + 40) {
 					 pot.placeTower(filename);
+					 tempPot = pot;
 				 }
 			 }
 			
@@ -225,5 +233,7 @@ public class DummyGame implements IGameLogic {
 			 
 			}
 	}
+	
+
 	
 }

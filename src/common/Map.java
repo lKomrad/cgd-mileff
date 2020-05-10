@@ -5,16 +5,18 @@ import java.util.List;
 
 import engine.MapHandler;
 import engine.Texture2D;
+import engine.Vector2D;
 
 public class Map {
 	
-	private static MapHandler txtReader = new MapHandler("ezegyproba1.txt", "ezegyproba2.txt", "ezegyproba3.txt", 10, 10);
+	private static MapHandler txtReader = new MapHandler("ezegyproba1.txt", "ezegyproba2.txt", "ezegyproba3.txt", "ezegyproba4.txt", 10, 10);
 	private static int numberofRows = MapHandler.getRows();
 	private static int numberofColumns = MapHandler.getColumns();
 	//private static MapComponent[][] map = txtReader.getMap();
 	private static int[][] map = txtReader.getMap();
 	private static Texture2D[][] mapTexture = new Texture2D[MapHandler.getRows()][MapHandler.getColumns()];
 	private static ArrayList<PlaceOfTower> placeOfTowers = txtReader.getPlaceOfTowers();
+	private static ArrayList<Vector2D> checkpoints = txtReader.getFlagPosition();
 	private static ArrayList<Texture2D> placeOfTowersTextures = new ArrayList();
 	private static ArrayList<Decoration> decorations = txtReader.getDecorations();
 	private static ArrayList<Texture2D> decorationTextures = new ArrayList();
@@ -24,6 +26,18 @@ public class Map {
 		
 	}
 	
+
+
+	public static ArrayList<Vector2D> getCheckpoints() {
+		return checkpoints;
+	}
+
+
+
+	public static void setCheckpoints(ArrayList<Vector2D> checkpoints) {
+		Map.checkpoints = checkpoints;
+	}
+
 
 
 	public static ArrayList<Texture2D> getDecorationTextures() {
@@ -144,7 +158,7 @@ public static void loadTowerPlaces() {
 			dec.setPosition(decoration.getX(), decoration.getY(), decoration.getZ());
 			decTextures.add(dec);
 		}
-		Map.setDecorationTextures(decTextures);
+		Map.setPlaceOfTowersTextures(decTextures);
 	}
 
 	public static void setMapTexture(Texture2D[][] mapTexture) {

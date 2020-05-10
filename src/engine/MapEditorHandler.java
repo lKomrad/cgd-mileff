@@ -114,7 +114,7 @@ public class MapEditorHandler {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				MapComponent mc = new MapComponent();
-				mc.setFilename("textures/MapComponents/fold/kivalogatva/road42.png");
+				mc.setFilename("textures/MapComponents/fold/kivalogatva/road0.png");
 				mc.setX(i * 99);
 				mc.setY(j * 99);
 				mc.setZ(0);

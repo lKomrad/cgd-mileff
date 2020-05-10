@@ -4,6 +4,10 @@ import engine.Texture2D;
 
 public class Tower extends Decoration{
 	
+	
+	
+		
+	
 		public Texture2D loadTowerTexture() {
 			if(getFilename() == "textures/MapComponents/epulet/bastya/bastya_001.png" || 
 					getFilename() == "textures/MapComponents/epulet/bastya/bastya_002.png") {
@@ -27,5 +31,10 @@ public class Tower extends Decoration{
 				return tower;
 			}
 			return null;
+		}
+		
+		public Golem putGolemOnMap() {
+			Golem towergolem = new Golem(getX() + 20, getY() + 10 , 0.2f);
+			return towergolem;
 		}
 }

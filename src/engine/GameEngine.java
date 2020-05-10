@@ -1,5 +1,7 @@
 package engine;
 
+import game.MapEditor;
+
 /**
  * Simple Class for representing engine functions
  * 
@@ -61,7 +63,7 @@ public class GameEngine implements Runnable {
 
 		boolean running = true;
 
-		while (running && !window.windowShouldClose()) {
+		while (running && (!MapEditor.closoljmarbepls || !window.windowShouldClose())) {
 			elapsedTime = timer.getElapsedTime();
 			accumulator += elapsedTime;
 

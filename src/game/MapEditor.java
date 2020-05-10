@@ -35,7 +35,7 @@ public class MapEditor implements IGameLogic{
 	public static Decoration tempdec = new Decoration();
 	public static boolean potordec = false;
 	private static boolean decbool = false;
-	private static boolean closoljmarbepls = false;
+	public static boolean closoljmarbepls = false;
 
 	
 
@@ -66,6 +66,7 @@ public class MapEditor implements IGameLogic{
 				MapEditorHandler.export("ezegyproba");
 				MapEditorHandler.temporarymethod();
 				closoljmarbepls = true;
+				window.windowShouldClose();
 			}
 			
 			

@@ -14,6 +14,7 @@ public class MapHandler {
 	private int[][] map;
 	private ArrayList<Decoration> decorations;
 	private ArrayList<PlaceOfTower> placeOfTowers;
+	private ArrayList<Vector2D> flagPositions;
 	private static int rows;
 	private static int columns;
 
@@ -26,11 +27,20 @@ public class MapHandler {
 		this.map = map;
 	}
 
-	public MapHandler(String filename, String decfilename, String potfilename, int rows, int columns) {
+	public ArrayList<Vector2D> getFlagPosition() {
+		return flagPositions;
+	}
+
+	public void setFlagPosition(ArrayList<Vector2D> flagPosition) {
+		this.flagPositions = flagPosition;
+	}
+
+	public MapHandler(String filename, String decfilename, String potfilename, String cpfilename, int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
 		decorations = readDecorationFile(decfilename);
 		placeOfTowers = readTowerplaceFile(potfilename);
+		flagPositions = readFlags(cpfilename);
 		map = readMapFile(filename);
 	}
 	
@@ -116,6 +126,23 @@ public class MapHandler {
 			}
 			System.out.println(decs);
 			return decs;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public static ArrayList<Vector2D> readFlags(String filename) {
+		try {
+			File file = new File(filename);
+			Scanner sc = new Scanner(file);
+			ArrayList<Vector2D> checkpoints = new ArrayList<Vector2D>();
+			
+			while (sc.hasNextLine()) {
+				Vector2D flag = new Vector2D(sc.nextInt(), sc.nextInt());
+				checkpoints.add(flag);
+			}
+			System.out.println(checkpoints);
+			return checkpoints;
 		} catch (Exception e) {
 			return null;
 		}
