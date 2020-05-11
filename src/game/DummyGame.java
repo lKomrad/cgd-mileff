@@ -27,6 +27,7 @@ import common.Ogre;
 import common.Orc;
 import common.PlaceOfTower;
 import common.Projectile;
+import common.Tower;
 //import engine.CSprite;
 import engine.IGameLogic;
 import engine.Renderer;
@@ -108,7 +109,17 @@ public class DummyGame implements IGameLogic {
 	@Override
 	public void input(Window window) {
 		if (window.isKeyPressed('A')) {
-			projectiles.add(new Projectile(1000,0,enemyUnits.get(0)));
+			for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
+				if(pot.getTower() != null) {
+					Enemy enemy = checkForFights(pot.getTower());
+					if(pot.getTower().getRange() >=
+						GameLogic.calculateDistance(enemy.GetPosition(),pot.getTower().getPosition())) {
+							projectiles.add(pot.getTower().summonProjectile());
+					}
+				}
+				
+			 }
+			
 
 		}
 		//ez így valamiért lefut többször (valszeg amiatt, hogy a lent töltött idõt érzékeli)
@@ -118,9 +129,10 @@ public class DummyGame implements IGameLogic {
 				
 
 		}else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
-			addTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_003.png");
-			Golem golem = tempPot.getTower().putGolemOnMap();
-			friendlyUnits.add(golem);
+			
+			addFortressTowerMouseClick(window, "textures/MapComponents/epulet/bastya/bastya_003.png");
+			
+			
 
 		}
 		else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_3)) {
@@ -142,6 +154,24 @@ public class DummyGame implements IGameLogic {
 			pos.x += 10;
 			sprite.SetPosition(pos);
 		}*/
+		
+		for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
+				if(pot.getTower() != null) {
+					if(pot.getTower().isShooting() == true) {
+						if(checkForFights(pot.getTower()) != null) {
+							
+							Enemy enemy = checkForFights(pot.getTower());
+									System.out.println("Most lõ!");
+									projectiles.add(pot.getTower().summonProjectile());
+						}
+					}
+				}
+				
+				
+		}
+		
+		
+		
 	}
 
 	@Override
@@ -175,6 +205,17 @@ public class DummyGame implements IGameLogic {
 				}
 			}
 		}
+	}
+	
+	public Enemy checkForFights(Tower tower) {
+		for (Enemy unit : enemyUnits) {
+			if (GameLogic.calculateDistance(tower.getPosition(), unit.GetPosition()) < tower.getRange()) {
+				Enemy enemy = unit;
+				tower.setTargetUnit(enemy);
+				return enemy;
+			}
+		}
+		return null;
 	}
 	
 	public void checkEnemyWalking(List<Enemy> enemyUnits) {
@@ -222,7 +263,7 @@ public class DummyGame implements IGameLogic {
 	public void checkDyingUnits(List<Unit> dyingUnits) {
 		for (Unit unit : dyingUnits) {
 			unit.setElapsedTime(unit.attackTimer.getElapsedTime() + unit.getElapsedTime());
-			System.out.println(unit.getElapsedTime());
+			//System.out.println(unit.getElapsedTime());
 		}
 		for(int i = 0; i < dyingUnits.size(); i++) {
 			if(dyingUnits.get(i).getElapsedTime() > 10) {
@@ -259,6 +300,10 @@ public class DummyGame implements IGameLogic {
 			 //bonk big box kell majd ide
 			 if(window.getCursorXPosition() > pot.getX() && window.getCursorXPosition() < pot.getX() + 100) {
 				 if(window.getCursorYPosition() > pot.getY() && window.getCursorYPosition() < pot.getY() + 40) {
+					 if(pot.hasTower() == true && pot.getTower().getGolem() != null) {
+						 System.out.println("yaaay2");
+						 friendlyUnits.remove(pot.getTower().getGolem());
+					 }
 					 pot.placeTower(filename);
 					 tempPot = pot;
 				 }
@@ -266,4 +311,39 @@ public class DummyGame implements IGameLogic {
 		 }
 	}
 	
+	public void addFortressTowerMouseClick(Window window, String filename) {
+		 System.out.println(window.getCursorXPosition() + ";" + window.getCursorYPosition());
+			
+		 for (PlaceOfTower pot : Map.getPlaceOfTowers()) {
+			 //bonk big box kell majd ide
+			 if(window.getCursorXPosition() > pot.getX() && window.getCursorXPosition() < pot.getX() + 100) {
+				 if(window.getCursorYPosition() > pot.getY() && window.getCursorYPosition() < pot.getY() + 40) {
+					 /*if(pot.hasTower() == true) {
+						 if(pot.getTower().getGolem() != null) {
+							Golem tempGolem = null;
+							for (Golem golem : friendlyUnits) {
+								if(golem == pot.getTower().getGolem()) {
+									 tempGolem = golem;
+								}
+								
+							}
+							 if(tempGolem != null) {
+								friendlyUnits.remove(tempGolem);
+							 }
+							 
+						 }
+					 }*/
+					 if(pot.hasTower() == true && pot.getTower().getGolem() != null) {
+						 System.out.println("yaaay2");
+						 friendlyUnits.remove(pot.getTower().getGolem());
+					 }
+					 Golem golem = new Golem();
+					 pot.placeTower(filename, golem);
+					 //golem = pot.getTower().putGolemOnMap();
+					 friendlyUnits.add(golem);
+					 tempPot = pot;
+				 }
+		 	  }			 
+		 }
+	}
 }

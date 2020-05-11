@@ -98,6 +98,8 @@ public class Projectile extends Enemy {
 		}
 	}
 	
+	
+	
 	public void Draw() {
 		Texture2D tex;
 		if(this.facingRight) {

@@ -102,7 +102,7 @@ public class Orc extends Enemy {
 			break;
 		case Attacking:
 			elapsedTime += attackTimer.getElapsedTime();
-			if (elapsedTime > 2 && targetUnit != null) {
+			if (elapsedTime > attackSpeed && targetUnit != null) {
 				turnToTarget();
 				this.setAnimation(Animation.Attack);
 				framesPassed = 0;
