@@ -80,8 +80,9 @@ public class Tower extends Decoration{
 		}
 		
 		public Golem putGolemOnMap(Golem golem) {
-			golem.SetPosition(new Vector2D(getX() + 20, getY() + 10));
+			//golem.SetPosition(new Vector2D(getX() + 20, getY() + 10));
 			golem.setScale(0.2f);
+			golem.SetPosition(new Vector2D(getX() + 200 * golem.scale, getY() + 450*golem.scale));
 			this.golem = golem;
 			return this.golem;
 		}

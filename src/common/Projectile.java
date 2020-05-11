@@ -11,8 +11,8 @@ import game.GameLogic;
 
 public class Projectile extends Enemy {
 	
-	private static ArrayList<Texture2D> idle_vFrames = new ArrayList<Texture2D>();
-	private static ArrayList<Texture2D> idle_vFramesFlipped = new ArrayList<Texture2D>();
+	public static Texture2D texture = new Texture2D();
+	
 	
 	boolean toBeDeleted;
 
@@ -43,86 +43,10 @@ public class Projectile extends Enemy {
 		m_vSpritePosition = new Vector2D(x, y);
 	}
 	
-	public static void LoadAllTextures() {
-		//idleAnimation
-		String filenames = "textures/Orc/PNG/PNG Sequences/Idle/0_Orc_Idle_0";
-		int numOfFrames = 18;
-		LoadTextureGroup(filenames, numOfFrames, idle_vFrames, idle_vFramesFlipped);
-	}
-	
-	public static void LoadTextureGroup(String filenames, int numOfFrames, ArrayList<Texture2D> list, ArrayList<Texture2D> flipped) {
-
-		if (numOfFrames == 1) {
-			Texture2D tex = new Texture2D();
-			tex.CreateTexture(filenames + ".png");
-			list.add(tex);
-			
-			Texture2D texFlip = new Texture2D();
-			tex.CreateTextureFlipped(filenames + ".png");
-			flipped.add(texFlip);
-		} else {
-			//Loading single textures
-			for (int i = 0; i < numOfFrames; i++) {
-				Texture2D tex = new Texture2D();
-
-				if (0 <= i && i < 10) {
-					tex.CreateTexture(filenames + "0" + (i) + ".png");
-				} else {
-					tex.CreateTexture(filenames + (i) + ".png");
-				}
-
-				list.add(tex);
-			}
-			
-			for (int i = 0; i < numOfFrames; i++) {
-				Texture2D tex = new Texture2D();
-
-				if (0 <= i && i < 10) {
-					tex.CreateTextureFlipped(filenames + "0" + (i) + ".png");
-				} else {
-					tex.CreateTextureFlipped(filenames + (i) + ".png");
-				}
-
-				flipped.add(tex);
-			}
-		}
-	}
-	
-	public void setCorrectAnimation() {
-		switch (this.currentAction) {
-		case Idle:
-			this.setAnimation(Animation.Idle);
-			break;
-		default:
-			break;
-		}
-	}
-	
-	
 	
 	public void Draw() {
-		Texture2D tex;
-		if(this.facingRight) {
-			switch (this.animation) {
-			case Idle:
-				tex = idle_vFrames.get(m_iActualFrame - 1);
-				break;
-			default:
-				tex = idle_vFrames.get(m_iActualFrame - 1);
-				break;
-			}			
-		}else {
-			switch (this.animation) {
-			case Idle:
-				tex = idle_vFramesFlipped.get(m_iActualFrame - 1);
-				break;
-			default:
-				tex = idle_vFramesFlipped.get(m_iActualFrame - 1);
-				break;
-			}	
-		}
-
-		tex.Draw(m_vSpritePosition);
+		
+		texture.Draw(m_vSpritePosition);
 		Update();
 	}
 	
@@ -165,37 +89,19 @@ public class Projectile extends Enemy {
 	}
 	
 	public void Update() {
-		if (500.0f / m_iFps < (System.currentTimeMillis() - m_iLastUpdate)) {
-			m_iLastUpdate = System.currentTimeMillis();
-			switch (this.animation) {
-			case Idle:
-				if (++m_iActualFrame > idle_vFrames.size()) {
-					m_iActualFrame = 1;
-				}
-				break;
-			default:
-				break;
-			}
-
-		}
 	}
 	
 	public Texture2D GetCurrentFrameTexture() {
-		if(this.facingRight) {
-			switch (this.animation) {
-			case Idle:
-				return idle_vFrames.get(m_iActualFrame - 1);
-			default:
-				return idle_vFrames.get(m_iActualFrame - 1);
-			}			
-		}else {
-			switch (this.animation) {
-			case Idle:
-				return idle_vFramesFlipped.get(m_iActualFrame - 1);
-			default:
-				return idle_vFramesFlipped.get(m_iActualFrame - 1);
-			}	
-		}
+		return texture;
+	}
 
+	public static void createTexture() {
+		texture.CreateTexture("textures/Projectiles/magicbubble.png");
+	}
+	
+	@Override
+	public void setCorrectAnimation() {
+		// TODO Auto-generated method stub
+		
 	}
 }

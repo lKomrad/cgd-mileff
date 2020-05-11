@@ -201,30 +201,47 @@ public class Renderer {
 	}
 	
 	public void renderAllUnits(List<Golem> friendlyUnits, List<Enemy> enemyUnits, List<Unit> dyingUnits, List<Projectile> projectiles){
-		List<Unit> allUnits = new ArrayList<Unit>();
+		//List<Unit> allUnits = new ArrayList<Unit>();
 		for (Unit unit : dyingUnits) {
-			allUnits.add(unit);			
-		}
-		for (Golem friendly : friendlyUnits) {
-			allUnits.add(friendly);
-		}
-		for (Enemy enemy : enemyUnits) {
-			allUnits.add(enemy);
-		}
-		
-		for(Projectile pro : projectiles) {
-			allUnits.add(pro);
-		}
-		
-		for(Unit unit : allUnits) {
 			// Set world matrix for this item
-			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(unit.GetPosition().x,unit.GetPosition().y,0), unit.GetCurrentFrameTexture().getRotation(),
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(unit.GetPosition().x - 200 * unit.getScale(),unit.GetPosition().y - 450 * unit.getScale(),0), unit.GetCurrentFrameTexture().getRotation(),
 					unit.getScale());
 
 			shaderProgram.setUniform("worldMatrix", worldMatrix);
 
 			// Render the sprite
-			unit.Draw();
+			unit.Draw();		
+		}
+		for (Golem friendly : friendlyUnits) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(friendly.GetPosition().x - 200 * friendly.getScale(),friendly.GetPosition().y - 450 * friendly.getScale(),0), friendly.GetCurrentFrameTexture().getRotation(),
+					friendly.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			friendly.Draw();
+		}
+		for (Enemy enemy : enemyUnits) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(enemy.GetPosition().x - 200 * enemy.getScale(),enemy.GetPosition().y - 450 * enemy.getScale(),0), enemy.GetCurrentFrameTexture().getRotation(),
+					enemy.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			enemy.Draw();
+		}
+		
+		for(Projectile pro : projectiles) {
+			// Set world matrix for this item
+			Matrix4f worldMatrix = transformation.getWorldMatrix(new Vector3f(pro.GetPosition().x,pro.GetPosition().y,0), pro.GetCurrentFrameTexture().getRotation(),
+					pro.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix);
+
+			// Render the sprite
+			pro.Draw();
 		}
 	}
 	

@@ -85,11 +85,11 @@ public class DummyGame implements IGameLogic {
 		Goblin.LoadAllTextures();
 		Ogre.LoadAllTextures();
 		Orc.LoadAllTextures();
-		Projectile.LoadAllTextures();
+		Projectile.createTexture();
 
-		Golem golem = new Golem(300,500,0.33f);
+		/*Golem golem = new Golem(300,500,0.33f);
 		
-		friendlyUnits.add(golem);
+		friendlyUnits.add(golem);*/
 		
 		initEnemyQueue();
 		
@@ -269,6 +269,38 @@ public class DummyGame implements IGameLogic {
         Ogre ogre;
         Orc orc;
 
+        goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        goblin.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(goblin);
+
+        ogre = new Ogre(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        ogre.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(ogre);
+
+        goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        goblin.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(goblin);
+
+        orc = new Orc(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        orc.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(orc);
+        
+        goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        goblin.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(goblin);
+
+        ogre = new Ogre(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        ogre.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(ogre);
+
+        goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        goblin.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(goblin);
+
+        orc = new Orc(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        orc.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(orc);
+        
         goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
         goblin.setGoalLocations(Map.getCheckpoints());
         enemyQueue.add(goblin);
