@@ -209,11 +209,41 @@ public class DummyGame implements IGameLogic {
 				i--;
 			}
 		}
-		
-		orc = new Orc(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
-		orc.setGoalLocations(Map.getCheckpoints());
-		enemyQueue.add(orc);
 	}
+	
+	public void spawnEnemies() {
+        if (enemyQueue.size() != 0) {
+            elapsedSeconds += gameTimer.getElapsedTime();
+            System.out.println(elapsedSeconds);
+            if(elapsedSeconds > 10) {
+                elapsedSeconds = 0;
+                enemyUnits.add(enemyQueue.get(0));
+                enemyQueue.remove(0);
+            }
+        }
+    }
+
+    public void initEnemyQueue() {
+        Goblin goblin;
+        Ogre ogre;
+        Orc orc;
+
+        goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        goblin.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(goblin);
+
+        ogre = new Ogre(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        ogre.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(ogre);
+
+        goblin = new Goblin(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        goblin.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(goblin);
+
+        orc = new Orc(Map.getCheckpoints().get(0).x,Map.getCheckpoints().get(0).y,0.2f);
+        orc.setGoalLocations(Map.getCheckpoints());
+        enemyQueue.add(orc);
+    }
 	
 	public void checkDyingUnits(List<Unit> dyingUnits) {
 		for (Unit unit : dyingUnits) {
@@ -261,5 +291,7 @@ public class DummyGame implements IGameLogic {
 		 	  }			 
 		 }
 	}
+	
+	
 	
 }
