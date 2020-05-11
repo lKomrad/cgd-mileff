@@ -33,7 +33,7 @@ public class MapEditor implements IGameLogic{
 	private final MapEditorRenderer renderer;
 	private static MapComponent mapcomp;
 	public static Decoration tempdec = new Decoration();
-	public static boolean potordec = false;
+	public static int potordecorcp = 0;
 	private static boolean decbool = false;
 	public static boolean closoljmarbepls = false;
 
@@ -71,6 +71,7 @@ public class MapEditor implements IGameLogic{
 			
 			
 		}
+		
 		else if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
 			for (MapComponent mc : MapEditorHandler.getMcs()) {
 				if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 55) {
@@ -104,12 +105,12 @@ public class MapEditor implements IGameLogic{
 		}
 		 if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
 				for (Decoration dec : MapEditorHandler.getDecs()) {
-					if(window.getCursorXPosition() > dec.getX() && window.getCursorXPosition() < dec.getX() + 50) {
-						 if(window.getCursorYPosition() > dec.getY() && window.getCursorYPosition() < dec.getY() + 50) {
+					if(window.getCursorXPosition() > dec.getX() && window.getCursorXPosition() < dec.getX() + dec.getTexture().GetWidth()) {
+						 if(window.getCursorYPosition() > dec.getY() && window.getCursorYPosition() < dec.getY() + dec.getTexture().GetHeight()) {
 							 dec.getTexture().setScale(1.2f);
 							 tempdec.loadTextures(dec);
 							 tempdec.getTexture().setPosition(500, 500, 0);
-							 potordec = false;
+							 potordecorcp = 0;
 							 decbool = true;
 							 
 						 }
@@ -123,12 +124,12 @@ public class MapEditor implements IGameLogic{
 					
 				}
 				for (Decoration dec : MapEditorHandler.getPots()) {
-					if(window.getCursorXPosition() > dec.getX() && window.getCursorXPosition() < dec.getX() + 50) {
-						 if(window.getCursorYPosition() > dec.getY() && window.getCursorYPosition() < dec.getY() + 50) {
+					if(window.getCursorXPosition() > dec.getX() && window.getCursorXPosition() < dec.getX() + dec.getTexture().GetWidth()) {
+						 if(window.getCursorYPosition() > dec.getY() && window.getCursorYPosition() < dec.getY() + dec.getTexture().GetHeight()) {
 							 dec.getTexture().setScale(1.2f);
 							 tempdec.loadTextures(dec);
 							 tempdec.getTexture().setPosition(500, 500, 0);
-							 potordec = true;
+							 potordecorcp = 1;
 							 decbool = true;
 							 
 						 }
@@ -141,6 +142,26 @@ public class MapEditor implements IGameLogic{
 					}
 					
 				}
+				Decoration cp = MapEditorHandler.getCp();
+					if(window.getCursorXPosition() > cp.getX() && window.getCursorXPosition() < cp.getX() + cp.getTexture().GetWidth()) {
+						 if(window.getCursorYPosition() > cp.getY() && window.getCursorYPosition() < cp.getY() + cp.getTexture().GetHeight()) {
+							 cp.getTexture().setScale(0.12f);
+							 tempdec.loadTextures(cp);
+							 tempdec.getTexture().setPosition(500, 500, 0);
+							 tempdec.getTexture().setScale(0.1f);
+							 potordecorcp = 2;
+							 decbool = true;
+							 
+						 }
+						 else{
+							 cp.getTexture().setScale(0.1f);
+							}
+					 }
+					else{
+						cp.getTexture().setScale(0.1f);
+					}
+					
+				
 				/*for (MapComponent mc : MapEditorHandler.getMapComponents()) {
 					if(window.getCursorXPosition() > mc.getX() && window.getCursorXPosition() < mc.getX() + 99) {
 						 if(window.getCursorYPosition() > mc.getY() && window.getCursorYPosition() < mc.getY() + 99) {
@@ -156,16 +177,19 @@ public class MapEditor implements IGameLogic{
 				tempdec.getTexture().setPosition((float)window.getCursorXPosition(),
 						(float)window.getCursorYPosition(), 0);
 				if (window.mouseButtonDown(GLFW_MOUSE_BUTTON_3)) {
-					if(window.getCursorXPosition()< 900 && window.getCursorYPosition()< 900)
+					if(window.getCursorXPosition() < 990 - (tempdec.getTexture().GetWidth() * tempdec.getTexture().getScale()) && 
+							window.getCursorYPosition() < 990 - (tempdec.getTexture().GetHeight() * tempdec.getTexture().getScale()))
 					{tempdec.setX((int)window.getCursorXPosition());
 					tempdec.setY((int)window.getCursorYPosition());
-					if(potordec == false) {
+					if(potordecorcp == 0) {
 						MapEditorHandler.addDecorationToArrayList(tempdec);
 					}
-					else {
+					else if (potordecorcp == 1) {
 						MapEditorHandler.addPlaceofTowerToArrayList(tempdec);
 					}
-					
+					else if( potordecorcp == 2){
+						MapEditorHandler.addCheckpointsToArrayList(tempdec);
+					}
 					decbool = false;
 					}
 				}

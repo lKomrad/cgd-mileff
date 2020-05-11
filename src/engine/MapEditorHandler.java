@@ -16,11 +16,14 @@ public class MapEditorHandler {
 	private static ArrayList<MapComponent> mapComponents;
 	private static ArrayList<Decoration> decorations = new ArrayList<Decoration>();
 	private static ArrayList<Decoration> placeOfTowers = new ArrayList<Decoration>();
+	private static ArrayList<Decoration> flags = new ArrayList<Decoration>();
+	private static ArrayList<Vector2D> checkpoints = new ArrayList<Vector2D>();
 
 	// Map komponensek, amiktõl variálhatjuk a mapot
 	private static ArrayList<MapComponent> mcs;
 	private static ArrayList<Decoration> decs;
 	private static ArrayList<Decoration> pots;
+	private static Decoration cp = new Decoration();
 
 	// Gomb, amivel jóváhagyjuk
 
@@ -41,6 +44,30 @@ public class MapEditorHandler {
 
 	public void setMap(int[][] map) {
 		this.map = map;
+	}
+	
+	public static ArrayList<Decoration> getFlags() {
+		return flags;
+	}
+
+	public static void setFlags(ArrayList<Decoration> flags) {
+		MapEditorHandler.flags = flags;
+	}
+
+	public static Decoration getCp() {
+		return cp;
+	}
+
+	public static void setCp(Decoration cp) {
+		MapEditorHandler.cp = cp;
+	}
+
+	public static ArrayList<Vector2D> getCheckpoints() {
+		return checkpoints;
+	}
+
+	public static void setCheckpoints(ArrayList<Vector2D> checkpoints) {
+		MapEditorHandler.checkpoints = checkpoints;
 	}
 
 	public static ArrayList<MapComponent> getMapComponents() {
@@ -207,13 +234,19 @@ public class MapEditorHandler {
 		// Torony helyeinek betöltése
 		Decoration pot = new Decoration();
 		filename = "textures/MapComponents/kiegeszitok/fold_001.png";
-		readdd(pot, filename, 1, 1, 1000, 800, 1);
+		readdd(pot, filename, 1, 1, 950, 800, 1);
 
 		tpots.add(pot);
+		
+		// Checkpointok cucclija
+		cp = new Decoration();
+		filename = "textures/MapComponents/checkpoints/flag.png";
+		readdd(cp, filename, 1, 1, 1020, 760, 0.1f);
 
 		mcs = tmcs;
 		decs = tdecs;
 		pots = tpots;
+		
 
 	}
 
@@ -264,6 +297,23 @@ public class MapEditorHandler {
 		decorations.add(dec);
 
 	}
+	
+	public static void addCheckpointsToArrayList(Decoration decoration) {
+		Decoration dec = new Decoration();
+		dec.setFilename(decoration.getFilename());
+		dec.setX(decoration.getX());
+		dec.setY(decoration.getY());
+		dec.setZ(0);
+
+		Texture2D mapComp = new Texture2D();
+		mapComp.CreateTexture(dec.getFilename());
+		mapComp.setPosition(dec.getX(), dec.getY(), dec.getZ());
+		mapComp.setScale(0.1f);
+		dec.setTexture(mapComp);
+		flags.add(dec);
+		checkpoints.add(new Vector2D(dec.getX(), dec.getY()));
+
+	}
 
 	public static void addPlaceofTowerToArrayList(Decoration decoration) {
 		Decoration dec = new Decoration();
@@ -288,6 +338,7 @@ public class MapEditorHandler {
 		exportMapComps(filename + "1.txt");
 		exportDecs(decorations, filename + "2.txt");
 		exportDecs(placeOfTowers, filename + "3.txt");
+		exportCheckpoints(filename+ "4.txt");
 	}
 
 	public static void exportMapComps(String filename) {
@@ -322,6 +373,26 @@ public class MapEditorHandler {
 					bufferedWriter.newLine();
 				}
 			}
+
+			bufferedWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void exportCheckpoints(String filename) {
+		try {
+			FileWriter writer = new FileWriter(filename, false);
+			BufferedWriter bufferedWriter = new BufferedWriter(writer);
+			for (Vector2D position : getCheckpoints()) {
+				bufferedWriter.write(position.x + " ");
+				bufferedWriter.write(position.y + " ");
+				if(getCheckpoints().get(getCheckpoints().size()-1) != position) {
+					bufferedWriter.newLine();
+				}
+			}
+			System.out.println(getCheckpoints());
 
 			bufferedWriter.close();
 		} catch (IOException e) {

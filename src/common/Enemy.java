@@ -105,6 +105,7 @@ public abstract class Enemy extends Unit {
 		
 		public abstract void setCorrectAnimation();
 		
+		
 
 		public void attackTarget() {
 			targetUnit.health -= attack;

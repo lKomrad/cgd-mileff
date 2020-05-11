@@ -156,7 +156,22 @@ public class MapEditorRenderer {
 		}
 		catch(Exception ex) {
 		}
-				
+		
+		try {for (Decoration flag : MapEditorHandler.getFlags()) {
+			
+			Texture2D texture = flag.getTexture(); 
+			// Set world matrix for this item
+			Matrix4f worldMatrix2 = transformation.getWorldMatrix(texture.getPosition(), texture.getRotation(),
+					texture.getScale());
+
+			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+			// Render the decorations
+			texture.render();
+		}
+		}
+		catch(Exception ex) {
+		}	
 			
 		for (Decoration pots : MapEditorHandler.getPots()) {
 			
@@ -171,13 +186,23 @@ public class MapEditorRenderer {
 			texture.render();
 		}
 		
+		Texture2D texture = MapEditorHandler.getCp().getTexture(); 
+		// Set world matrix for this item
+		Matrix4f worldMatrix2 = transformation.getWorldMatrix(texture.getPosition(), texture.getRotation(),
+				texture.getScale());
+
+		shaderProgram.setUniform("worldMatrix", worldMatrix2);
+
+		// Render the decorations
+		texture.render();
+		
 		try {
 			Decoration dec = MapEditor.tempdec;
 			// Set world matrix for this item
-			Matrix4f worldMatrix2 = transformation.getWorldMatrix(dec.getTexture().getPosition(), dec.getTexture().getRotation(),
+			Matrix4f worldMatrix22 = transformation.getWorldMatrix(dec.getTexture().getPosition(), dec.getTexture().getRotation(),
 					dec.getTexture().getScale());
 
-			shaderProgram.setUniform("worldMatrix", worldMatrix2);
+			shaderProgram.setUniform("worldMatrix", worldMatrix22);
 
 			// Render the decorations
 			dec.getTexture().render();
