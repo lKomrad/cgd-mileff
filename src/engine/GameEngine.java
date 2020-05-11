@@ -63,7 +63,7 @@ public class GameEngine implements Runnable {
 
 		boolean running = true;
 
-		while (running && (!MapEditor.closoljmarbepls || !window.windowShouldClose())) {
+		while (running && !MapEditor.closoljmarbepls && !window.windowShouldClose()) {
 			elapsedTime = timer.getElapsedTime();
 			accumulator += elapsedTime;
 

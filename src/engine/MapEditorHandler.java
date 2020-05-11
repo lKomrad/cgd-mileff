@@ -386,8 +386,8 @@ public class MapEditorHandler {
 			FileWriter writer = new FileWriter(filename, false);
 			BufferedWriter bufferedWriter = new BufferedWriter(writer);
 			for (Vector2D position : getCheckpoints()) {
-				bufferedWriter.write(position.x + " ");
-				bufferedWriter.write(position.y + " ");
+				bufferedWriter.write((int)position.x + " ");
+				bufferedWriter.write((int)position.y + "");
 				if(getCheckpoints().get(getCheckpoints().size()-1) != position) {
 					bufferedWriter.newLine();
 				}
